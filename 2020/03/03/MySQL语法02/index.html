@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>MySQL语法02 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1、order by 排序排序order by 滞后，asc升序（升序一般是默认的）、desc降序order by后面可跟多个字段排序 1234567select num,name,age from ruozedata.studentinfo where name like &#39;r%&#39; order by num asc ;#降序select num,name,age from ruo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL语法02">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/MySQL%E8%AF%AD%E6%B3%9502/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1、order by 排序排序order by 滞后，asc升序（升序一般是默认的）、desc降序order by后面可跟多个字段排序 1234567select num,name,age from ruozedata.studentinfo where name like &#39;r%&#39; order by num asc ;#降序select num,name,age from ruo">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T05:55:23.996Z">
+<meta property="article:modified_time" content="2020-03-03T07:59:39.973Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,126 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:55:23.996Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 531 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                MySQL语法02
+            
+        </h1>
+        <div class="content">
+            <p>1、order by 排序<br>排序order by 滞后，asc升序（升序一般是默认的）、desc降序<br>order by后面可跟多个字段排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select num,name,age from ruozedata.studentinfo </span><br><span class="line">where name like &#39;r%&#39; order by num asc ;</span><br><span class="line">#降序</span><br><span class="line">select num,name,age from ruozedata.studentinfo </span><br><span class="line">where name like &#39;r%&#39; order by num desc ;</span><br><span class="line">#按部门编号排序且按月薪从大到小排序,</span><br><span class="line">select * from xxx order by depton , sal desc;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>2、limit 限制多少行、 where<br>select * from xxx，查询千万数据的表，有可能拖垮数据库。<br>DBeaver，默认执行200条</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from xxx where deptno&#x3D;10 limit 2;</span><br></pre></td></tr></table></figure>
+<p>注：如果生产环节直执行了select条件，未加where或linit,让DBA或者运维，执行下面命令：</p>
+<blockquote>
+<p>#查看进程，并kill进程<br>#JDBC 确实需要拿1KW，普通写法肯定不行！ 用流式写法读取数据<br>show processlists;<br>kill xxx</p>
+</blockquote>
+<p>3、group by  </p>
+<p>1.与聚合函数  sum count avg max min组合使用<br>2.分组语法    select xxx,sum(yyy) from t group by xxx<br>3.group by出现的字段 务必出现在 select 后面<br>4.having 过滤  等价于 子表+where</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">找薪水和＞9000的是哪个部门？  </span><br><span class="line">#过滤 having</span><br><span class="line">select</span><br><span class="line">deptno,sum(sal) as saal</span><br><span class="line">from emp</span><br><span class="line">group by deptno</span><br><span class="line">having saal &gt;9000;</span><br></pre></td></tr></table></figure>
+<p>4、join 多表</p>
+<p><img src="https://img-blog.csdnimg.cn/2019072018203892.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># left join 以左表为主   a&lt;--b a数据最全  b是匹配  匹配多少算多少 on就是匹配条件</span><br><span class="line">#right join 以右表为主   a--&gt;b b数据最全  a是匹配  匹配多少算多少 on就是匹配条件</span><br><span class="line">#inner join 是将两张表的数据都存在</span><br></pre></td></tr></table></figure>
+<p>5、union<br>#union all 结果不去重复     union结果去重复  注意：数量相同 类型相同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select  bid as id from testb</span><br><span class="line">union  </span><br><span class="line">select  aid from testa;</span><br></pre></td></tr></table></figure>
+<p>6、topN</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#哪些部门的哪些职业的薪水和，最高1位的职业是什么？</span><br><span class="line">create view  sal</span><br><span class="line">as </span><br><span class="line">select</span><br><span class="line">deptno,job,</span><br><span class="line">sum(sal+ifnull(comm,0)) as sal</span><br><span class="line">from  emp </span><br><span class="line">group by  deptno,job;</span><br><span class="line"></span><br><span class="line">select * from sal;</span><br><span class="line"></span><br><span class="line">select </span><br><span class="line">a.*</span><br><span class="line">from sal a </span><br><span class="line">where</span><br><span class="line">(</span><br><span class="line">select count(*) from sal b </span><br><span class="line">where a.deptno&#x3D;b.deptno</span><br><span class="line">and a.sal&lt;b.sal</span><br><span class="line">) &#x3D;0</span><br><span class="line">order by a.deptno;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/Hadoop%E7%94%A8%E6%88%B7%E5%90%AF%E5%8A%A8hdfs%E4%B8%89%E4%B8%AA%E8%BF%9B%E7%A8%8B/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Hadoop用户启动hdfs三个进程</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/">
+                <span class="level-item">MySQL语法01</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +756,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 MySQL语法02&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

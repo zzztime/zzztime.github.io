@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>Linux基础命令04 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1、vi的使用（1）vi常用的快捷键|快捷键  |作用  ||–|–||  dd|删除当前行 ||  dG| 删除光标所在行及以下的所有行 ||ndd|删除光标所在行及以下的n-1行||  gg| 跳转到第一行的首字母 || G  | 跳转到最后一行的首字母 ||shift+$ |行尾|| 0  | 行首 || gg+dG | 真正清空0字节，如果文件内容很大，加载会很慢 ||set nu|显示行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础命令04">
+<meta property="og:url" content="http://yoursite.com/2020/03/02/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A404/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1、vi的使用（1）vi常用的快捷键|快捷键  |作用  ||–|–||  dd|删除当前行 ||  dG| 删除光标所在行及以下的所有行 ||ndd|删除光标所在行及以下的n-1行||  gg| 跳转到第一行的首字母 || G  | 跳转到最后一行的首字母 ||shift+$ |行尾|| 0  | 行首 || gg+dG | 真正清空0字节，如果文件内容很大，加载会很慢 ||set nu|显示行">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-02T14:42:02.973Z">
+<meta property="article:modified_time" content="2020-03-02T14:51:18.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,136 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-02T14:42:02.973Z">2020-03-02</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1197 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                Linux基础命令04
+            
+        </h1>
+        <div class="content">
+            <p>1、vi的使用<br>（1）vi常用的快捷键<br>|快捷键  |作用  |<br>|–|–|<br>|  dd|删除当前行 |<br>|  dG| 删除光标所在行及以下的所有行 |<br>|ndd|删除光标所在行及以下的n-1行|<br>|  gg| 跳转到第一行的首字母 |<br>| G  | 跳转到最后一行的首字母 |<br>|shift+$ |行尾|<br>| 0  | 行首 |<br>| gg+dG | 真正清空0字节，如果文件内容很大，加载会很慢 |<br>|set nu|显示行号|<br>|set nonu |取消显示行号  |</p>
+<a id="more"></a>
+<p>（2）vi进入命令模式<br>进入vi命令模式：例如：vi .bash_profile进入命令模式—按i键进入编辑模式—按esc退出编辑模式—按shift+：输入wq保存退出。<br>（3）清空文件<br>一种是通过vi命令进行清空gg+dG整个文件清空，但是文件内容假如很大，加载肯定很慢<br>另一种是cat “ ” &gt; install.log  cat是找文件，文件是双引号，提示文件不存在，，应该是打印<br>看install.log里面有没有内容，vi进入内容为空，但是外面确展示有一个字节，不属于真正的0字节，里面存在一个占位符，如果用shell脚本判断的话并不是真正的0字节。<br> echo “” &gt; innstall.log   伪清空1个字节<br> echo ‘’ &gt; install.log     伪清空1个字节<br>-rw-r–r–. 1 root root     1 Jun 24 00:49 innstall.log<br>cat /dev/null &gt; install.log  真正的清空  0字节<br>（4）搜索<br>shift+：  /xxx  按n向下定位查找，按N向上定位查找<br>想要跳转到最后1行编辑G shift+$ shift+a/i</p>
+<p>2、权限<br>chown 改变用户 用户组<br>chmod 改变读写执</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x. 2 root root  4096 Apr 12 00:17 Downloads</span><br><span class="line">-rw-r--r--. 1 root root     0 Jun 17 23:56 error.log</span><br></pre></td></tr></table></figure>
+<p>三个字母为一组。第一个字母：d文件夹、 -文件、 l连接、r 读4、w 写2、x 执行1（一般是shell脚本）、- 0 没有任何权限<br>例如：rwxr-xr-x  第一组代表文件和文件夹所属的用户的权限:读写执<br>第二组 r-x 5 代表文件和文件夹所属的 用户组的权限: 读执<br>第三组 r-x 5 代表其他组的所有用户对这个文件或文件夹权限: 读执</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 photo]# touch test.log</span><br><span class="line">[root@hadoop001 photo]# ll</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r--. 1 root root 0 Jun 24 21:51 test.log</span><br><span class="line">[root@hadoop001 photo]# vi test.log</span><br><span class="line">[root@hadoop001 photo]# chmod 444 test.log</span><br><span class="line">[root@hadoop001 photo]# ll</span><br><span class="line">total 4</span><br><span class="line">-r--r--r--. 1 root root 4 Jun 24 21:52 test.log</span><br></pre></td></tr></table></figure>
+
+
+
+<p>针对文件夹操作<br>chown -R jepson:jepson ruozedata<br>chmod -R 777  ruozedata<br>针对文件夹的-R的参数就是chown chmod这俩个命令<br>777代表所有人都有最大权限 读写执</p>
+<p>4、一台服务器不可能只运行一个服务，例如：mysql对应的用户去运行mysql  ,mysqladmin用户<br>5、软链接：快捷键<br>路径升级会用到软链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Wendy1@hadoop001 ~]$ mkdir Wendyv1.0</span><br><span class="line">[Wendy1@hadoop001 ~]$ ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 2 Wendy1 bigdata 4096 Jun 25 23:36 Wendyv1.0</span><br><span class="line">[Wendy1@hadoop001 ~]$ ln -s Wendyv1.0 rz</span><br><span class="line">[Wendy1@hadoop001 ~]$ ll</span><br><span class="line">total 4</span><br><span class="line">lrwxrwxrwx. 1 Wendy1 bigdata    9 Jun 25 23:37 rz -&gt; Wendyv1.0</span><br><span class="line">drwxr-xr-x. 2 Wendy1 bigdata 4096 Jun 25 23:36 Wendyv1.0</span><br><span class="line">[Wendy1@hadoop001 ~]$</span><br></pre></td></tr></table></figure>
+<p>ln -s软连接，rz快捷文件夹路径，Wendyv1.0第一个路径代表了原始路径, rz -&gt; Wendyv1.0rz指向的原始路径<br>软连接的使用场景：一是多版本，二是硬盘</p>
+<p>查看磁盘空间：df -h<br>内存：free -m<br>top:    load average: 0.00, 0.00, 0.00<br>            1min  5min 15min<br>            生产上&lt;=10 代表系统不行<br>            &gt;10 系统负载高 卡<br>立即关机：shutdown -n now<br>重启：reboot</p>
+<p>6.解压缩<br>zip -r<br>zip -r test.zip test/*  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 wendy2.0]# mkdir test</span><br><span class="line">[root@hadoop001 wendy2.0]# cd test&#x2F;</span><br><span class="line">[root@hadoop001 test]# touch 1.log</span><br><span class="line">[root@hadoop001 test]# cd ..&#x2F;</span><br><span class="line">[root@hadoop001 wendy2.0]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 2 root root 4096 Jun 26 01:24 test</span><br><span class="line">[root@hadoop001 wendy2.0]# zip -r test.zip test&#x2F;*</span><br><span class="line">  adding: test&#x2F;1.log (stored 0%)</span><br><span class="line">[root@hadoop001 wendy2.0]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x. 2 root root 4096 Jun 26 01:24 test</span><br><span class="line">-rw-r--r--. 1 root root  170 Jun 26 01:25 test.zip</span><br><span class="line">[root@hadoop001 wendy2.0]# rm -rf test</span><br><span class="line">[root@hadoop001 wendy2.0]# ll</span><br><span class="line">total 4</span><br><span class="line">-rw-r--r--. 1 root root 170 Jun 26 01:25 test.zip</span><br><span class="line">[root@hadoop001 wendy2.0]# unzip test.zip</span><br><span class="line">Archive:  test.zip</span><br><span class="line"> extracting: test&#x2F;1.log              </span><br><span class="line">[root@hadoop001 wendy2.0]# ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x. 2 root root 4096 Jun 26 01:27 test</span><br><span class="line">-rw-r--r--. 1 root root  170 Jun 26 01:25 test.zip</span><br><span class="line">[root@hadoop001 wendy2.0]# ll test</span><br><span class="line">total 0</span><br><span class="line">-rw-r--r--. 1 root root 0 Jun 26 01:24 1.log</span><br><span class="line">[root@hadoop001 wendy2.0]#</span><br></pre></td></tr></table></figure>
+<p>tar.gz<br>tar -xzvf xxx.tar.gz<br>tar -czvf xxx.tar.gz test/*<br>查看命令帮助里面没有f和z，z代表的是它的后缀.gz  ,x是解压，c是压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 wendy2.0]# tar -czvf test.tar.gz test&#x2F;*</span><br><span class="line">test&#x2F;1.log</span><br><span class="line">[root@hadoop001 wendy2.0]# ll</span><br><span class="line">total 12</span><br><span class="line">drwxr-xr-x. 2 root root 4096 Jun 26 01:27 test</span><br><span class="line">-rw-r--r--. 1 root root  115 Jun 26 01:34 test.tar.gz</span><br><span class="line">-rw-r--r--. 1 root root  170 Jun 26 01:25 test.zip</span><br><span class="line">[root@hadoop001 wendy2.0]# rm -rf test</span><br><span class="line">[root@hadoop001 wendy2.0]# tar -xzvf test.tar.gz</span><br><span class="line">test&#x2F;1.log</span><br><span class="line">[root@hadoop001 wendy2.0]#</span><br></pre></td></tr></table></figure>
+<p>7.wget<br> wget  url下载连接地址<br>8.调度<br>crontab<br>[root@hadoop001 tmp]# crontab -l</p>
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>/tmp/date.sh &gt;&gt; /tmp/date.log<br>5个<em>号分别代表：分 小时 日 月 周<br>每隔两分钟的表示方式：</em>/2 * * * *<br>每隔10秒执行：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">for((i&#x3D;1;i&lt;&#x3D;6;i++))</span><br><span class="line">do</span><br><span class="line">	echo &quot;wwww.ruozedata.com&quot;</span><br><span class="line">	date</span><br><span class="line">	sleep 10s</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">exit</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>9.后台执行<br>./date.sh &amp; 并不是真正后台执行  可能是会话<br>nohup ./date.sh &amp;<br>nohup ./date.sh &gt;&gt; /tmp/date.log 2&gt;&amp;1 &amp; </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/02/Linux%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF%E4%B8%8E%E6%A0%A1%E9%AA%8C%E6%96%B9%E6%B3%95/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux中常见的错误与校验方法</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/%E5%AE%89%E8%A3%85CentOS6.9%E7%B3%BB%E7%BB%9F/">
+                <span class="level-item">使用VMware 安装CentOS6.9系统</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +766,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 Linux基础命令04&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

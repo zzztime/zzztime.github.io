@@ -7,12 +7,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>zzztime</title>
 
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="zzztime">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
@@ -89,7 +89,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +125,289 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
-            
-            </ul>
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:55:19.176Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 892 个字)
+                </span>
+                
+                
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/">MySQL语法01</a>
+            
+        </h1>
+        <div class="content">
+            <p>1、创建数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#创建数据库 ruozedata</span><br><span class="line">create database ruozedata;</span><br></pre></td></tr></table></figure>
+<p>2、创建用户并刷新用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on ruozedata.* to ruoze@&#39;%&#39; identified by &#39;123456&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
     </div>
-</div></div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:40.639Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1686 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/">MySQL部署</a>
+            
+        </h1>
+        <div class="content">
+            <p>MySQL部署流程：<br>通过rpm包或tar包部署<br>企业里一般是通过tar包部署，可进行定制化</p>
+<p>一、rpm包部署：<br>一般机器上面都有mysql - libs包，不可无故卸载libs包，可能会导致其他依赖性服务不正常<br>rpm -e mysql-libs-5.1.73-8.el6_8.x86_64 是可卸载rpm libs包，卸载的时候会告诉一个依赖，则使用rpm -e –nodeps进行卸载</p>
+<p>安装流程：<br> 1、yum search mysql 搜索MySQL文件<br> 2、yum install -y mysql -server.x86_64安装server包<br> 3、yum install -y mysql -server .x86_64  mysql .x86_64 同时安装client包<br> 4、yum install -y mysql-libs-5.1.73-8.el6_8.x86_64安装libs<br> 5、service mysqld start 进行启动校验<br> 6、mysql 如果出现提示，不能连接本地的MySQL服务通过socket ‘/tmp/mysql .sock’(2)<br>先查看后台进程  ps -ef|grep mysql ，会发现后台进行的进程是在–socket=/var/lib/mysql/mysql .sock下面，在命令后面加上连接指向mysql –socket=/var/lib/mysql/mysql .sock ，就可以登录到mysql</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:27.601Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 574 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/03/Hadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/">Hadoop伪分布式部署</a>
+            
+        </h1>
+        <div class="content">
+            <p>一、使用软件</p>
+<p>   Hadoop版本:hadoop-2.6.0-cdh5.7.0<br>    JDK版本：jdk-8u45-linux-x64<br>    Linux安装ssh服务</p>
+<p>二、官方链接</p>
+<p> CDH(<a href="http://www.cloudera.com">www.cloudera.com</a>)<br> <a href="http://archive.cloudera.com/cdh5/cdh/5/">http://archive.cloudera.com/cdh5/cdh/5/</a><br> <a href="http://www.apache.org/">http://www.apache.org/</a><br> <a href="http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.16.2-changes.log">http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.16.2-changes.log</a><br>#慎用CDH5.11.0 </p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/03/Hadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:02.687Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    2 分钟 读完 (大约 232 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/">登录MySQL时出现Access denied的错误提示</a>
+            
+        </h1>
+        <div class="content">
+            <p>适用于忘记密码时，跳过权限认证<br>一.安装好mysql后，登录时提示Access denied</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop001:mysqladmin:&#x2F;usr&#x2F;local&#x2F;mysql:&gt;mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">ERROR 1045 (28000): Access denied for user &#39;root&#39;@&#39;localhost&#39; (using password: NO)</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-02T14:45:38.291Z">2020-03-02</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 456 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/">进程PID与端口号PORT</a>
+            
+        </h1>
+        <div class="content">
+            <p>一个进程有很多个端口号（对内），只有一个端口号（对外）</p>
+<p>1、关于进程pid<br>进程管理会用到的命令<br>|命令| 含义 |<br>|–|–|<br>| ps -ef |查看系统中的进程  |<br>| grep  | 将后台进程中指定的文件过滤出来 |<br>|grep -v|过滤排除|<br>| kill -9 pid | 杀死进程 |<br>|kill -9 $(pgrep -f tail)| 杀死关于tail命令的所有进程 |</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card card-transparent">
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/page/3/">上一页</a>
+        </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/page/5/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/">1</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/3/">3</a></li>
+            
+            <li><a class="pagination-link is-current" href="/page/4/">4</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/5/">5</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/6/">6</a></li>
+            
+        </ul>
+    </nav>
+</div>
+</div>
                 
 
 

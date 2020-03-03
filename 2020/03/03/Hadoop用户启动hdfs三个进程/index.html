@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>Hadoop用户启动hdfs三个进程 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="Hadoo伪分布式部署中需要设置NN、DN、SNN的相关参数，在真正生产中，不可能使用IP来启动相关组件得，因为IP很有可能会变动，也很可能你得修改大量代码中得IP。所以需要调整NN、DN、SNN启动方式localhost为hadoop001 一、先查看当前服务是以localhost启动的 123456789101112131415161718192021222324[root@hadoop001">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop用户启动hdfs三个进程">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/Hadoop%E7%94%A8%E6%88%B7%E5%90%AF%E5%8A%A8hdfs%E4%B8%89%E4%B8%AA%E8%BF%9B%E7%A8%8B/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="Hadoo伪分布式部署中需要设置NN、DN、SNN的相关参数，在真正生产中，不可能使用IP来启动相关组件得，因为IP很有可能会变动，也很可能你得修改大量代码中得IP。所以需要调整NN、DN、SNN启动方式localhost为hadoop001 一、先查看当前服务是以localhost启动的 123456789101112131415161718192021222324[root@hadoop001">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T05:56:46.376Z">
+<meta property="article:modified_time" content="2020-03-03T08:01:27.992Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,114 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:56:46.376Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 566 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                Hadoop用户启动hdfs三个进程
+            
+        </h1>
+        <div class="content">
+            <p>Hadoo伪分布式部署中需要设置NN、DN、SNN的相关参数，在真正生产中，不可能使用IP来启动相关组件得，因为IP很有可能会变动，也很可能你得修改大量代码中得IP。所以需要调整NN、DN、SNN启动方式localhost为hadoop001</p>
+<p>一、先查看当前服务是以localhost启动的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# su - hadoop</span><br><span class="line">[hadoop@hadoop001 ~]$ cd app&#x2F;</span><br><span class="line">[hadoop@hadoop001 app]$ cd hadoop&#x2F;</span><br><span class="line">[hadoop@hadoop001 hadoop]$ sbin&#x2F;start-dfs.sh </span><br><span class="line">19&#x2F;07&#x2F;04 20:57:06 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</span><br><span class="line">Starting namenodes on [localhost]</span><br><span class="line">localhost: starting namenode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-namenode-hadoop001.out</span><br><span class="line">localhost: starting datanode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-datanode-hadoop001.out</span><br><span class="line">Starting secondary namenodes [0.0.0.0]</span><br><span class="line">0.0.0.0: starting secondarynamenode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-secondarynamenode-hadoop001.out</span><br><span class="line">19&#x2F;07&#x2F;04 20:57:32 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</span><br><span class="line">[hadoop@hadoop001 hadoop]$ jps</span><br><span class="line">3778 SecondaryNameNode</span><br><span class="line">3500 NameNode</span><br><span class="line">3597 DataNode</span><br><span class="line">3903 Jps</span><br><span class="line">[hadoop@hadoop001 hadoop]$ netstat -nlp|grep 3500</span><br><span class="line">#如果用另外一个服务的账号去查看端口号会抛错</span><br><span class="line">#如果查看进程没有端口号，尝试用root查看</span><br><span class="line">(Not all processes could be identified, non-owned process info</span><br><span class="line"> will not be shown, you would have to be root to see it all.)</span><br><span class="line">tcp        0      0 0.0.0.0:50070               0.0.0.0:*                   LISTEN      3500&#x2F;java           </span><br><span class="line">tcp        0      0 127.0.0.1:9000              0.0.0.0:*                   LISTEN      3500&#x2F;java           </span><br><span class="line">tcp        0      0 :::35001                    :::*                        LISTEN      -</span><br></pre></td></tr></table></figure>
+<p>企业里不可在配置文件里配置ip，而以hostname配置  hosts事先配置好<br>ip必须变更<br>hosts文件: 第一二行 千万不要删除注释掉；配置内网ip hostname</p>
+<a id="more"></a>
+<p>二.NN、DN、SNN参数配置<br>(1) NN参数配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">core-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">            &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">            &lt;value&gt;hdfs:&#x2F;&#x2F;hadoop001:9000&lt;&#x2F;value&gt;</span><br><span class="line">   &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>(2) DN参数配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 hadoop]$ cat slaves </span><br><span class="line">localhost</span><br><span class="line">[hadoop@hadoop001 hadoop]$ vi slaves </span><br><span class="line">[hadoop@hadoop001 hadoop]$ cat slaves </span><br><span class="line">hadoop001</span><br></pre></td></tr></table></figure>
+<p>(3) SNN参数配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 hadoop]$ vi hdfs-site.xml</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">       &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;</span><br><span class="line">       &lt;value&gt;1&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">&lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.secondary.http-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop001:50090&lt;&#x2F;value&gt;</span><br><span class="line"> &lt;&#x2F;property&gt;</span><br><span class="line"> &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.namenode.secondary.https-address&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hadoop001:50091&lt;&#x2F;value&gt;</span><br><span class="line"> &lt;&#x2F;property&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>三.用hadoop用户启动hdfs进程<br>先把进程停止然后再启动<br>此时hdfs进程的启动显示全部为hadoop-01的主机名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 hadoop]$ sbin&#x2F;start-dfs.sh</span><br><span class="line">19&#x2F;07&#x2F;04 22:02:14 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</span><br><span class="line">Starting namenodes on [hadoop001]</span><br><span class="line">hadoop001: starting namenode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-namenode-hadoop001.out</span><br><span class="line">hadoop001: starting datanode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-datanode-hadoop001.out</span><br><span class="line">Starting secondary namenodes [hadoop001]</span><br><span class="line">hadoop001: starting secondarynamenode, logging to &#x2F;home&#x2F;hadoop&#x2F;software&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;logs&#x2F;hadoop-hadoop-secondarynamenode-hadoop001.out</span><br><span class="line">19&#x2F;07&#x2F;04 22:02:36 WARN util.NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable</span><br><span class="line">[hadoop@hadoop001 hadoop]$</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/jps%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">jps命令使用</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9502/">
+                <span class="level-item">MySQL语法02</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +744,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 Hadoop用户启动hdfs三个进程&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

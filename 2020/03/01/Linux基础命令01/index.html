@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>Linux基础命令01 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1.路径pwd 查看当前文件路径，从根目录开始 linux系统的目录是从根目录开始的 &#x2F; 代表的是根目录 2.用户窥探root 超级管理员  &#x2F;root默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础命令01">
+<meta property="og:url" content="http://yoursite.com/2020/03/01/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A401/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1.路径pwd 查看当前文件路径，从根目录开始 linux系统的目录是从根目录开始的 &#x2F; 代表的是根目录 2.用户窥探root 超级管理员  &#x2F;root默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-01T13:57:23.338Z">
+<meta property="article:modified_time" content="2020-03-02T10:04:47.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,114 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-01T13:57:23.338Z">2020-03-01</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 809 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                Linux基础命令01
+            
+        </h1>
+        <div class="content">
+            <p>1.路径<br>pwd 查看当前文件路径，从根目录开始<br> linux系统的目录是从根目录开始的<br> / 代表的是根目录</p>
+<p>2.用户窥探<br>root 超级管理员  /root<br>默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录</p>
+<a id="more"></a>
+
+<p>3.查看<br>执行ls /<br>显示该目录下的文件夹或文件的名称<br>执行ls -l /<br>显示该目录下的文件夹或文件的明细信息 </p>
+<p> 4.切换目录<br>  cd /home  cd /root<br>  cd ~ 切换到家目录<br>  cd -  回到上一次目录<br>  cd ../  回退上一层目录<br>  cd ../../  回退两个目录<br>  输入命令cd直接回车也可以快速切换root家目录<br>  家目录的标识是~</p>
+<p>  图片</p>
+<p>5.看文件或文件夹大小<br>  ls -l ==&gt; ll（ls -l显示该目录下的文件夹或文件的明细信息）<br>  ll -h 查看文件夹下面文件的大小<br>  du -sh  查看文件夹或者文件大小<br>  ll -rt （也可ll -r -t ,或ls -l -r -t ,或ls -lrt） 按时间排序，可便于找出最新的文件和文件夹<br>  ll -a   查看隐藏文件夹或文件 隐藏是以“ .” 开始<br>  例如：cd .ssh/</p>
+<p> 6.创建<br> mkdir 创建一个新文件夹<br> mkdir -p demo/1/2  级联创建文件夹 （串行）<br> mkdir 4 5 6 根目录下面创建4、5、6这三个并行的文件夹 （并行）<br> 串行和并行的区别在 -p<br> 创建文件 touch<br> touch 创建0字节文件<br> vi xxx.log创建文件</p>
+<p>图片<br>图片</p>
+<p>7.拷贝、移动<br>cp:2份文件，原来的文件还在<br>mv:1份文件，将原来的文件移动到新的位置<br>mv xxx.log 8移动文件到新的文件位置<br>mv photo1.log 7/photo123.log 文件移动的时候也可调整文件名称<br>mv 8 7移动文件夹  </p>
+<p>8查看命令帮助<br> –help</p>
+<p> 9.查看文件内容<br> 离线查看<br> cat 文件内容一下子全部显示 适用于内容少的文件内容查看<br> more 文件内容一页一页的往下翻 按空格键往下，无法回退，q键退出  适用于稍微多的内容<br> less   文件内容一行一行按箭头上下，q键退出<br> 文件内容的ERROR:<br>                   较大的文件内容，发送给window电脑，通过editplus 进行全局搜索<br>                   文件超100M及以上<br> cat install.log | grep -C 10 “ERROR”   -C指的是“ERROR”这个关键词上下十行 （常用）<br> cat install.log | grep -a 10 “ERROR”   -a指的“ERROR”这个关键词后十行<br> cat install.log | grep -b 10 “ERROR”   -b指的“ERROR”这个关键词前十行<br>                  文件内容超多，筛选出的结果输出到日志内容里面<br>   cat install.log | grep -C 10 “ERROR”  &gt; error.log</p>
+<p>   |  为管道符<br>    &gt; 为重定向输出 覆盖<br>    &gt;&gt; 追加<br>实时查看<br>-F=-f+retry<br> 使用tail -f监控某个文件，在另一个窗口将该文件删除后，然后再新创建，tail -f的监制失效。tail -F则会再次进行监控<br>tail -f Wendy1.log<br>tail -F Wendy2.log<br>echo “123” &gt;&gt; tail2.log   echo打印，把这句话打印出来追加到tail2.log文件</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/02/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A402/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Linux基础命令02</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/29/hello-world/">
+                <span class="level-item">Hello World</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +744,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 Linux基础命令01&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

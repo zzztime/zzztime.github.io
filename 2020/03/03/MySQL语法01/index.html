@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>MySQL语法01 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1、创建数据库 12#创建数据库 ruozedatacreate database ruozedata; 2、创建用户并刷新用户权限 12grant all privileges on ruozedata.* to ruoze@&#39;%&#39; identified by &#39;123456&#39;;flush privileges;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL语法01">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1、创建数据库 12#创建数据库 ruozedatacreate database ruozedata; 2、创建用户并刷新用户权限 12grant all privileges on ruozedata.* to ruoze@&#39;%&#39; identified by &#39;123456&#39;;flush privileges;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T05:55:19.176Z">
+<meta property="article:modified_time" content="2020-03-03T07:58:32.109Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,139 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T05:55:19.176Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 892 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                MySQL语法01
+            
+        </h1>
+        <div class="content">
+            <p>1、创建数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#创建数据库 ruozedata</span><br><span class="line">create database ruozedata;</span><br></pre></td></tr></table></figure>
+<p>2、创建用户并刷新用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on ruozedata.* to ruoze@&#39;%&#39; identified by &#39;123456&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>3、基本权限查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#查看数据库</span><br><span class="line">show create database ruozedata;</span><br><span class="line">#查看表结构</span><br><span class="line">show create table stuinfo;</span><br><span class="line">#查看用户权限</span><br><span class="line">show grants for ruoze@&#39;%&#39;;</span><br></pre></td></tr></table></figure>
+<p>4、MySQL字段类型</p>
+<blockquote>
+<p>数字类型：int 整数，long 长整数、float 单精度 、double 双精度 、decimal 小数值<br>字符串’abc’：char 定长字符串 0-255字节、varchar 变长字符串 0-65535字节、text<br>日期和时间：<br>date       YYYY-MM-DD 2019-09-10<br>time    HH:MM:SS   10:10:10<br>datetime 2019-09-10 10:10:10<br>timestamp 2019-09-10 10:10:10</p>
+</blockquote>
+<p>5、增删改查insert、update、delete、select</p>
+<blockquote>
+<p>insert into ruozedata(id,name,age) values(1,’rz’,18)<br>update ruozedata set age=22 where id=1;<br>delete from ruozedata where id=1;<br>select * from ruozedata;</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#举例增删改查的实际应用</span><br><span class="line">create table ruozedata(</span><br><span class="line">id int ,</span><br><span class="line">name varchar(200),</span><br><span class="line">age int</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">insert into ruozedata(id,name,age) values(1,&#39;rz&#39;,18)</span><br><span class="line">update ruozedata set age&#x3D;22 where id&#x3D;1;</span><br><span class="line">delete from ruozedata where id&#x3D;1;</span><br><span class="line">select * from ruozedata;</span><br></pre></td></tr></table></figure>
+
+<p>6、语法<br>DDL: 数据定义语言  create drop alter<br>DML: 数据操作语言  insert update delete select<br>DCL: 数据控制语言  grant  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#删除表</span><br><span class="line">drop table ruozedata;</span><br><span class="line">#创建表</span><br><span class="line">create table 表名（）...</span><br><span class="line">#执行结果</span><br><span class="line">select * from ruozedata;</span><br><span class="line">#约束</span><br><span class="line"> default</span><br><span class="line">#1&#x2F;主键 primary key 简写pk  一张表就只能一个主键&#x3D;&#x3D;非空约束+唯一</span><br><span class="line">#2&#x2F;主键是唯一约束的变态升级</span><br><span class="line">#3&#x2F;主键或唯一约束可以多个字段设置，根据数据的特性</span><br><span class="line">ALTER TABLE ruozedata.studentinfo ADD CONSTRAINT studentinfo_un UNIQUE KEY (num,name，...) ;数据不能存在多条重复</span><br><span class="line">#多列</span><br><span class="line">update ruozedata.studentinfo set name&#x3D;&#39;huhu2&#39;,age&#x3D;19 where id&#x3D;3;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># id一定要自增长 非业务字段。</span><br><span class="line">#创建人&#x2F;创建时间&#x2F;修改人&#x2F;修改时间，任何的数据设计时都需要进行时间、人的记录。</span><br><span class="line">#字段命名统一风格，常用的就是英文单词加上下划线组合，字母通常是3&#x2F;4个，如果已建表看表的规则。</span><br><span class="line">#不要将汉语拼音全拼或者缩写作为字段</span><br><span class="line">#不要将中文作为字段名称</span><br><span class="line">--------------------------------------</span><br><span class="line">示例：</span><br><span class="line">create table ruozedata(</span><br><span class="line">id int auto_increment primary key,</span><br><span class="line">stu_number int,</span><br><span class="line">stu_name varchar(200),</span><br><span class="line">stu_age int ,</span><br><span class="line">createtime timestamp default current_timestamp, </span><br><span class="line">#createtime创建时间  timestamp字段类型  default current_timestamp默认值当前时间</span><br><span class="line">cretae_user varchar(100),</span><br><span class="line">update_time timestamp default current_timestamp on update current_timestamp,</span><br><span class="line">#on update current_timestamp当表的数据发生变化，字段会自己做时间更新</span><br><span class="line">update_user varchar(100)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>关于where条件<br>生产上 update 切记是否要加where条件<br>生产上 delete 切记是否要加where条件<br>update ruozedata.studentinfo set age=28 where num=1;<br>update ruozedata.studentinfo set age=19;</p>
+<blockquote>
+<p>update不加where的情况<br>1    1    jepson    19    2019-06-26 22:14:19        2019-06-26 22:24:17<br>2    2    ruoze    19    2019-06-26 22:20:10        2019-06-26 22:24:17<br>3    3    huhu    19    2019-06-26 22:20:10    r    2019-06-26 22:24:17</p>
+</blockquote>
+<p>（1）插入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">insert into 表名(字段名1，字段名2，……)</span><br><span class="line">values(值1，值2，……)</span><br><span class="line">示例：</span><br><span class="line">insert into ruozedata.stuinfo(num,name,age) </span><br><span class="line">values(1,&#39;ruoze&#39;,12,……);</span><br></pre></td></tr></table></figure>
+<p>（2）更改数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">update 表名 set 字段名&#x3D;新值 </span><br><span class="line">示例：</span><br><span class="line">update stuinfo set age&#x3D;15 where id&#x3D;1;</span><br></pre></td></tr></table></figure>
+<p>（3）查询数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># &gt; &lt; &#x3D;</span><br><span class="line">select * from ruozedata.studentinfo where id&gt;&#x3D;1; </span><br><span class="line">select * from ruozedata.studentinfo where name&#x3D;&#39;ruoze1&#39;; </span><br><span class="line">select * from ruozedata.studentinfo where name!&#x3D;&#39;ruoze1&#39;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>查询年龄26岁或名称ruoze1的数据，or表示或的意思<br>查询年龄26岁且名称ruoze1的数据，and表示或的意思<br>查询ruoze1和jepson之间年龄为26的<br>select * from ruozedata.studentinfo where age=26 or name=’ruoze1’;<br>select * from ruozedata.studentinfo where age=26 and name=’ruoze1’;<br>select * from ruozedata.studentinfo where age=26 and (name=’ruoze1’ or  name=’jepson’);<br>模糊查询<br>查询含有r字母的<br>select * from ruozedata.studentinfo<br>where name like ‘%r%’;<br>查询首字母为ruo的<br>select * from ruozedata.studentinfo<br>where name like ‘ruo%’;<br>查询最后字母<br>select * from ruozedata.studentinfo<br>where name like ‘%1’;<br>查询第三个字母为o,前两个字母用占位符__<br>select * from ruozedata.studentinfo<br>where name like ‘__o%’; </p>
+</blockquote>
+<p>（4）删除数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delete from ruozedata where id&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9502/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">MySQL语法02</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/">
+                <span class="level-item">MySQL部署</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +769,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 MySQL语法01&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

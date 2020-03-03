@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>Linux基础命令03 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1.权限指令sudo允许系统管理员让普通用户执行一些或者全部的root命令 2.进程和端口号ps -ef将后台所有的进程打印出来ps -ef|grep tail将后台进程中过滤的关键词tail进程打印grep -v过滤排除">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux基础命令03">
+<meta property="og:url" content="http://yoursite.com/2020/03/02/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A403/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1.权限指令sudo允许系统管理员让普通用户执行一些或者全部的root命令 2.进程和端口号ps -ef将后台所有的进程打印出来ps -ef|grep tail将后台进程中过滤的关键词tail进程打印grep -v过滤排除">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-02T13:22:56.207Z">
+<meta property="article:modified_time" content="2020-03-02T13:26:35.190Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,141 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-02T13:22:56.207Z">2020-03-02</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1855 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                Linux基础命令03
+            
+        </h1>
+        <div class="content">
+            <p>1.权限指令<br>sudo允许系统管理员让普通用户执行一些或者全部的root命令</p>
+<p>2.进程和端口号<br>ps -ef将后台所有的进程打印出来<br>ps -ef|grep tail将后台进程中过滤的关键词tail进程打印<br>grep -v过滤排除</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ps -ef|grep tail</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">root      3144  2919  0 02:06 pts&#x2F;0    00:00:00 grep tail</span><br><span class="line">[root@hadoop001 ~]# ps -ef|grep tail | grep -v grep</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">[root@hadoop001 ~]# ps -ef|grep 2981</span><br><span class="line">root      2981  2977  0 01:28 pts&#x2F;1    00:00:00 -bash</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">root      3172  2919  0 02:19 pts&#x2F;0    00:00:00 grep 2981</span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>root      3140  2981  0 02:05 pts/1    00:00:00 tail -F tail.log<br>每一个进程都有自己的id号，其中3140代表不唯一的id  2981是父id,是bash的id</p>
+<p>3.杀死进程<br>kill -9 pid<br>杀死多个进程：kill -9 2873  3764<br>pgrep -f tail  将tail过滤出来的进程打印出来<br>[root@hadoop001 ~]# echo $(pgrep -f tail)<br>将打印出来的进程由纵列变成横列<br>[root@hadoop001 ~]# kill -9 $(pgrep -f tail)<br>杀死关于tail命令的所有进程<br>提醒：生产上假如非要执行kill杀进程，一定要确认清楚是否真的需要kill</p>
+<p>4.端口号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ps -ef|grep ssh</span><br><span class="line">root      1475     1  0 Jun19 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;sshd</span><br><span class="line">root      2915  1475  0 01:09 ?        00:00:01 sshd: root@pts&#x2F;0 </span><br><span class="line">root      2977  1475  0 01:28 ?        00:00:00 sshd: root@pts&#x2F;1 </span><br><span class="line">root      3230  2919  0 02:42 pts&#x2F;0    00:00:00 grep ssh</span><br><span class="line">[root@hadoop001 ~]# netstat -nlp|grep 1475</span><br><span class="line">tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      1475&#x2F;sshd           </span><br><span class="line">tcp        0      0 :::22                       :::*                        LISTEN      1475&#x2F;sshd           </span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>netstat显示网络的状态<br>ssh端口号不能为22，需要调整<br>找到ssh的进程pid 1475，再通过pid找到该进程的端口号<br>1475对外提供的服务是22，有时候一个进程有很多个端口号（对内），只有一个端口号（对外）</p>
+<p>过滤进程的正常流程：<br>进程名称–&gt;pid–&gt;port<br>1.可以通过port检验端口号是否正确是否变更<br>2.打开xx机器上面的httpd上的web界面，先要了解httpd的端口号是多少ps -ef|grep http</p>
+<p>找网卡<br>一种是ifconfig<br>另一种是cat /etc/hosts</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ifconfig</span><br><span class="line">eth0      Link encap:Ethernet  HWaddr 00:0C:29:52:41:4B  </span><br><span class="line">          inet addr:192.168.0.130  Bcast:192.168.0.255  Mask:255.255.255.0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# service httpd start</span><br><span class="line">Starting httpd: httpd: apr_sockaddr_info_get() failed for hadoop001</span><br><span class="line">httpd: Could not reliably determine the server&#39;s fully qualified domain name, using 127.0.0.1 for ServerName</span><br><span class="line">                                                           [  OK  ]</span><br></pre></td></tr></table></figure>
+<p>启动端口号 service httpd start</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ps -ef|grep http</span><br><span class="line">root      1845  1816  3 20:43 pts&#x2F;0    00:00:18 &#x2F;usr&#x2F;bin&#x2F;python &#x2F;usr&#x2F;bin&#x2F;yum install httpd</span><br><span class="line">root      1900     1  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1903  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1904  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1905  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1906  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1907  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1908  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1909  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">apache    1910  1900  0 20:51 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;httpd</span><br><span class="line">root      1918  1857  0 20:54 pts&#x2F;1    00:00:00 grep http</span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>其中1900位为下面所有端口号的父进程，<br>查看1900对外的端口号是80<br>默认的访问是80端口号 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# netstat -nlp|grep 1900</span><br><span class="line">tcp        0      0 :::80                       :::*                        LISTEN      1900&#x2F;httpd          </span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>对外提供服务的必须提供端口号，无端口号无法访问<br>端口号对外服务的ip地址，假如为127.0.0.1或localhost,只能在这台的机器上访问这个服务<br>一般这个地址为机器的IP或0.0.0.0或：：：，表示对外的任意IP可以服务</p>
+<p>3.搜索：一种通过find命令搜索，一种通过history搜索<br>find / -name ‘tail’<br>find / -name ‘<em>tail</em>‘<br>加’  ‘的是全称搜索<br>加‘*   <em>’号的是模糊匹配，例如：加<em>号可以模糊匹配到abtail、abtailc、tailc<br>find /root -name ‘</em>tail</em>‘<br>搜索root目录下面匹配的符合的tail文件或文件夹<br>很少从根目录开始搜索，一般从特定的目录开始</p>
+<p>4.安装rpm包<br>安装：yum install xxx<br>停服务：service  xxx stop<br>卸载：yum remove xxx<br>安装mysql :  yum search mysql<br>安装mysql,mysql分为服务版和客户端，当不清晰服务端和客户端全称的时候，可以通过简写search,搜索mysql镜像源下面所匹配的库<br>yum install mysql  会提示yes or no 如果不想输入的话，yum install -y  mysql ,安装后显示安装的是libs,但真实需要是服务端mysql-server.x86_64,客户端mysql.x86_64<br>Downloading Packages:<br>(1/2): mysql-5.1.73-8.el6_8.x86_64.rpm                | 895 kB     00:00<br>(2/2): mysql-libs-5.1.73-8.el6_8.x86_64.rpm           | 1.2 MB     00:00   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# yum install -y mysql-server.x86_64 mysql.x86_64</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# service httpd stop</span><br><span class="line">Stopping httpd:                                            [  OK  ]</span><br><span class="line">[root@hadoop001 ~]# yum remove httpd</span><br></pre></td></tr></table></figure>
+<p>进入mysql服务：<br>service mysqld start<br>mysql -uroot -p 不需要输入密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| test               |</span><br><span class="line">+--------------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure>
+<p>exit命令用于退出目前的shell。 执行exit可使shell以指定的状态值退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; exit</span><br><span class="line">Bye</span><br></pre></td></tr></table></figure>
+<p>rpm -qa搜索出这台机器中所有的软件包，过滤需要的mysql<br>一种卸载：yum remove ,但是可以补全名字：yum remove mysql-server-5.1.73-8.el6_8.x86_64<br>另一种卸载：rpm -e<br>不校验依赖性<br>卸载包的时候抛出依赖性，需要加参数–nodeps<br>rpm -e –nodeps httpd-2.2.15-69.el6.centos.x86_64</p>
+<p>5.which<br> which指令会在环境变量$PATH设置的目录里查找符合条件的文件<br> which ls<br> whereis ls<br> java -version查看Java的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# echo $PATH </span><br><span class="line">&#x2F;usr&#x2F;lib64&#x2F;qt-3.3&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;sbin:&#x2F;bin:&#x2F;usr&#x2F;sbin:&#x2F;usr&#x2F;bin:&#x2F;root&#x2F;bin</span><br><span class="line">[root@hadoop001 ~]# which ls</span><br><span class="line">alias ls&#x3D;&#39;ls --color&#x3D;auto&#39;</span><br><span class="line">        &#x2F;bin&#x2F;ls</span><br><span class="line">[root@hadoop001 ~]# whereis ls </span><br><span class="line">ls: &#x2F;bin&#x2F;ls &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1p&#x2F;ls.1p.gz &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1&#x2F;ls.1.gz</span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>当ls执行的时候，去环境变量$PATH里面以：号为分隔，一层层查找</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# whereis ls </span><br><span class="line">ls: &#x2F;bin&#x2F;ls &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1p&#x2F;ls.1p.gz &#x2F;usr&#x2F;share&#x2F;man&#x2F;man1&#x2F;ls.1.gz</span><br><span class="line">[root@hadoop001 ~]# cd &#x2F;usr&#x2F;lib64&#x2F;qt-3.3&#x2F;bin</span><br><span class="line">[root@hadoop001 bin]# ll</span><br><span class="line">total 0</span><br><span class="line">[root@hadoop001 bin]# vi ls</span><br><span class="line">[root@hadoop001 bin]# chmod +x ls</span><br><span class="line">[root@hadoop001 bin]# </span><br><span class="line">[root@hadoop001 bin]# which ls</span><br><span class="line">alias ls&#x3D;&#39;ls --color&#x3D;auto&#39;</span><br><span class="line">        &#x2F;usr&#x2F;lib64&#x2F;qt-3.3&#x2F;bin&#x2F;ls</span><br><span class="line"> [root@hadoop001 bin]# ls</span><br><span class="line"> ls       </span><br><span class="line">[root@hadoop001 bin]# rm -f ls</span><br><span class="line">[root@hadoop001 bin]# which ls</span><br><span class="line">alias ls&#x3D;&#39;ls --color&#x3D;auto&#39;</span><br><span class="line">        &#x2F;bin&#x2F;ls</span><br></pre></td></tr></table></figure>
+<p>6.Win上传到Linux文件<br>文件是压缩的文件或者是普通的文本文件，不会是文件夹<br> yum install lrzsz  文件从Win上传到Linux<br>第一步 [root@hadoop001 bin]# yum install lrzsz<br>第二步[root@hadoop001 bin]# rz<br>弹窗里面选择window的文件进行传输<br>sz filename  将Linux的文件传输给window<br>设置属性-文件传输-选择下载路劲，文件传输时将不再次次询问     </p>
+<p>7.jdk的目录必须放在/usr/java<br>如文件夹未创建mkdir -p /usr/java<br>解压jdk的包，tar -xzvf jdk-8u45-linux-x64.gz  -C /usr/java/<br>解压后cd /usr/java/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# tar -xzvf jdk-8u45-linux-x64.gz  -C &#x2F;usr&#x2F;java&#x2F;</span><br><span class="line">[root@hadoop001 ~]# cd &#x2F;usr&#x2F;java&#x2F;</span><br><span class="line">[root@hadoop001 java]# ll</span><br><span class="line">total 4</span><br><span class="line">drwxr-xr-x. 8 uucp 143 4096 Apr 11  2015 jdk1.8.0_45</span><br><span class="line">[root@hadoop001 java]#</span><br></pre></td></tr></table></figure>
+<p>JDK解压的时候用户和用户组发生变更 必须修正<br>修改用户和用户组的命令：chown -R root:root  /usr/java/jdk1.8.0_45<br>修正后用户和用户组为root</p>
+<p>8.配置全局环境变量<br>vi etc/profile<br>查看JAVA HOME路径灵活使用cd、pwd<br>vi /etc/profile<br>进入vi模式末行输入JAVA HOME=/usr/java/jdk1.8.0_45/<br>                                并配置PATH=${JAVA_HOME}/bin:$PATH<br>                                配置新的环境变量一定追加到前面，配置到后面可能查找的是之前旧的<br>                                =号前后不能有空格<br>source /etc/profile<br>which java<br>java -version<br>whereis java</p>
+<p>9.查看IP<br>window：ipconfig<br>Linux：ifconfig<br>服务对外ip:portyou有可能抛错误：connection refused 连接拒绝  用telnet ip port<br>                                                        timeout 超时  用ping ip/hostname<br>telnet ip port window位置在控制面板-程序和功能-启动或关闭window功能-勾选Telnet<br>linux 先安装 yum install -y telnet然后在telnet端口号和IP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# which telnet</span><br><span class="line">&#x2F;usr&#x2F;bin&#x2F;telnet</span><br><span class="line">[root@hadoop001 ~]# telnet 192.168.0.130 80   </span><br><span class="line">Trying 192.168.0.130...</span><br><span class="line">Connected to 192.168.0.130.</span><br><span class="line">Escape character is &#39;^]&#39;.</span><br></pre></td></tr></table></figure>
+<p>10.以hostname去连接<br>[root@hadoop001 ~]# ping hadoop001<br>ping: unknown host hadoop001<br>[root@hadoop001 ~]#<br>原因是映射关系未配置导致也就是机器的名称对应的IP未进行配置<br>Linux配置方式：vi /etc/hosts  输入IP地址和机器名称<br>window配置方式:  C:\Windows\System32\drivers\etc\hosts<br>注意 没有权限修改 直接复制一份桌面上，修改后 拖拽 覆盖即可</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/02/%E5%AE%89%E8%A3%85CentOS6.9%E7%B3%BB%E7%BB%9F/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">使用VMware 安装CentOS6.9系统</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/Linux%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A402/">
+                <span class="level-item">Linux基础命令02</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +771,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 Linux基础命令03&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

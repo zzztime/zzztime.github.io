@@ -7,22 +7,17 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>Linux基础命令一 - Hexo</title>
+<title>归档 - zzztime</title>
 
 
-    <meta name="description" content="1.路径pwd 查看当前文件路径，从根目录开始 linux系统的目录是从根目录开始的 &#x2F; 代表的是根目录 2.用户窥探root 超级管理员  &#x2F;root默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Linux基础命令一">
-<meta property="og:url" content="http://yoursite.com/2020/03/01/test/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.路径pwd 查看当前文件路径，从根目录开始 linux系统的目录是从根目录开始的 &#x2F; 代表的是根目录 2.用户窥探root 超级管理员  &#x2F;root默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="zzztime">
+<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+<meta property="og:site_name" content="zzztime">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://yoursite.com/source/image/17081909109536.jpg">
-<meta property="article:published_time" content="2020-03-01T13:57:23.338Z">
-<meta property="article:modified_time" content="2020-03-02T07:28:55.219Z">
-<meta property="article:author" content="John Doe">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/source/image/17081909109536.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
 
 
@@ -130,112 +125,190 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card">
-    
-    <div class="card-image">
-        <span  class="image is-7by1">
-            <img class="thumbnail" src="/source/image/17081909109536.jpg" alt="Linux基础命令一">
-        </span>
-    </div>
-    
-    <div class="card-content article ">
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-01T13:57:23.338Z">2020-03-01</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 809 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                Linux基础命令一
-            
-        </h1>
-        <div class="content">
-            <p>1.路径<br>pwd 查看当前文件路径，从根目录开始<br> linux系统的目录是从根目录开始的<br> / 代表的是根目录</p>
-<p>2.用户窥探<br>root 超级管理员  /root<br>默认所有用户家目录除了root就都在home目录下面，除非指定用户的家目录为其他目录</p>
-<a id="more"></a>
-
-<p>3.查看<br>执行ls /<br>显示该目录下的文件夹或文件的名称<br>执行ls -l /<br>显示该目录下的文件夹或文件的明细信息 </p>
-<p> 4.切换目录<br>  cd /home  cd /root<br>  cd ~ 切换到家目录<br>  cd -  回到上一次目录<br>  cd ../  回退上一层目录<br>  cd ../../  回退两个目录<br>  输入命令cd直接回车也可以快速切换root家目录<br>  家目录的标识是~</p>
-<p>  图片</p>
-<p>5.看文件或文件夹大小<br>  ls -l ==&gt; ll（ls -l显示该目录下的文件夹或文件的明细信息）<br>  ll -h 查看文件夹下面文件的大小<br>  du -sh  查看文件夹或者文件大小<br>  ll -rt （也可ll -r -t ,或ls -l -r -t ,或ls -lrt） 按时间排序，可便于找出最新的文件和文件夹<br>  ll -a   查看隐藏文件夹或文件 隐藏是以“ .” 开始<br>  例如：cd .ssh/</p>
-<p> 6.创建<br> mkdir 创建一个新文件夹<br> mkdir -p demo/1/2  级联创建文件夹 （串行）<br> mkdir 4 5 6 根目录下面创建4、5、6这三个并行的文件夹 （并行）<br> 串行和并行的区别在 -p<br> 创建文件 touch<br> touch 创建0字节文件<br> vi xxx.log创建文件</p>
-<p>图片<br>图片</p>
-<p>7.拷贝、移动<br>cp:2份文件，原来的文件还在<br>mv:1份文件，将原来的文件移动到新的位置<br>mv xxx.log 8移动文件到新的文件位置<br>mv photo1.log 7/photo123.log 文件移动的时候也可调整文件名称<br>mv 8 7移动文件夹  </p>
-<p>8查看命令帮助<br> –help</p>
-<p> 9.查看文件内容<br> 离线查看<br> cat 文件内容一下子全部显示 适用于内容少的文件内容查看<br> more 文件内容一页一页的往下翻 按空格键往下，无法回退，q键退出  适用于稍微多的内容<br> less   文件内容一行一行按箭头上下，q键退出<br> 文件内容的ERROR:<br>                   较大的文件内容，发送给window电脑，通过editplus 进行全局搜索<br>                   文件超100M及以上<br> cat install.log | grep -C 10 “ERROR”   -C指的是“ERROR”这个关键词上下十行 （常用）<br> cat install.log | grep -a 10 “ERROR”   -a指的“ERROR”这个关键词后十行<br> cat install.log | grep -b 10 “ERROR”   -b指的“ERROR”这个关键词前十行<br>                  文件内容超多，筛选出的结果输出到日志内容里面<br>   cat install.log | grep -C 10 “ERROR”  &gt; error.log</p>
-<p>   |  为管道符<br>    &gt; 为重定向输出 覆盖<br>    &gt;&gt; 追加<br>实时查看<br>-F=-f+retry<br> 使用tail -f监控某个文件，在另一个窗口将该文件删除后，然后再新创建，tail -f的监制失效。tail -F则会再次进行监控<br>tail -f Wendy1.log<br>tail -F Wendy2.log<br>echo “123” &gt;&gt; tail2.log   echo打印，把这句话打印出来追加到tail2.log文件</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-<div class="card">
+<div class="card widget">
     <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
-            
+        <h3 class="tag is-link">
+        2020
+        </h3>
+        <div class="timeline">
+        
+            <article class="media">
                 
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
-</div>
-
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:58:27.981Z">2020-03-03</time>
+                        <a href="/2020/03/03/%E9%85%8D%E7%BD%AEhadoop%E7%BB%84%E4%BB%B6yarn%E5%8F%8A%E6%A1%88%E4%BE%8B%E6%B5%8B%E8%AF%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">配置hadoop组件yarn及案例测试</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:57:38.781Z">2020-03-03</time>
+                        <a href="/2020/03/03/%E9%85%8D%E7%BD%AE%E5%A4%9A%E5%8F%B0%E6%9C%BA%E5%99%A8SSH%E7%9B%B8%E4%BA%92%E9%80%9A%E4%BF%A1%E4%BF%A1%E4%BB%BB/" class="title has-link-black-ter is-size-6 has-text-weight-normal">配置多台机器SSH相互通信信任</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
-<div class="notification is-danger">
-    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
-</div>
-
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:57:01.961Z">2020-03-03</time>
+                        <a href="/2020/03/03/jps%E5%91%BD%E4%BB%A4%E4%BD%BF%E7%94%A8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">jps命令使用</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
-                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
-
-<div class="notification is-danger">
-    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
-</div>
-
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:56:46.376Z">2020-03-03</time>
+                        <a href="/2020/03/03/Hadoop%E7%94%A8%E6%88%B7%E5%90%AF%E5%8A%A8hdfs%E4%B8%89%E4%B8%AA%E8%BF%9B%E7%A8%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop用户启动hdfs三个进程</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:55:23.996Z">2020-03-03</time>
+                        <a href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9502/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MySQL语法02</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
-<div class="notification is-danger">
-    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
-</div>
-
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:55:19.176Z">2020-03-03</time>
+                        <a href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MySQL语法01</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
                 
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:54:40.639Z">2020-03-03</time>
+                        <a href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MySQL部署</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
+                
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:54:27.601Z">2020-03-03</time>
+                        <a href="/2020/03/03/Hadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop伪分布式部署</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
+                
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-03T05:54:02.687Z">2020-03-03</time>
+                        <a href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/" class="title has-link-black-ter is-size-6 has-text-weight-normal">登录MySQL时出现Access denied的错误提示</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
+            <article class="media">
+                
+                <div class="media-content">
+                    <div class="content">
+                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2020-03-02T14:45:38.291Z">2020-03-02</time>
+                        <a href="/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/" class="title has-link-black-ter is-size-6 has-text-weight-normal">进程PID与端口号PORT</a>
+                        <div class="level article-meta is-mobile">
+                            <div class="level-left">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        
         </div>
     </div>
 </div>
 
+    
 
-
+    
 <div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/29/hello-world/">
-                <span class="level-item">Hello World</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
+    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+        <div class="pagination-previous">
+            <a class="is-flex-grow has-text-black-ter" href="/archives/">上一页</a>
         </div>
-        
-    </div>
+        <div class="pagination-next">
+            <a class="is-flex-grow has-text-black-ter" href="/archives/page/3/">下一页</a>
+        </div>
+        <ul class="pagination-list is-hidden-mobile">
+            
+            <li><a class="pagination-link has-text-black-ter" href="/archives/">1</a></li>
+            
+            <li><a class="pagination-link is-current" href="/archives/page/2/">2</a></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/archives/page/3/">3</a></li>
+            
+        </ul>
+    </nav>
 </div>
-
-
 </div>
                 
 
@@ -276,7 +349,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            2
+                            27
                         </p>
                     </a>
                 </div>
@@ -421,16 +494,16 @@
         
         <article class="media">
             
-            <a href="/2020/03/01/test/" class="media-left">
+            <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/source/image/17081909109536.jpg" alt="Linux基础命令一">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Wordcount案例的shuffle">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-01T13:57:23.338Z">2020-03-01</time></div>
-                    <a href="/2020/03/01/test/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux基础命令一</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:05:12.744Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Wordcount案例的shuffle</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -440,16 +513,73 @@
         
         <article class="media">
             
-            <a href="/2020/02/29/hello-world/" class="media-left">
+            <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn资源调优参数及案例">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-29T15:03:42.119Z">2020-02-29</time></div>
-                    <a href="/2020/02/29/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn资源调优参数及案例</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="MapReduce的工作原理图文详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:11.130Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MapReduce的工作原理图文详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn和MapReduce的内存优化配置详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:03:35.990Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn和MapReduce的内存优化配置详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="YARN架构设计">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:02:30.200Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">YARN架构设计</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -474,7 +604,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">26</span>
                 </span>
             </a>
         </li>
@@ -527,16 +657,16 @@
         
         <article class="media">
             
-            <a href="/2020/03/01/test/" class="media-left">
+            <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/source/image/17081909109536.jpg" alt="Linux基础命令一">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Wordcount案例的shuffle">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-01T13:57:23.338Z">2020-03-01</time></div>
-                    <a href="/2020/03/01/test/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Linux基础命令一</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:05:12.744Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Wordcount案例的shuffle</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -546,16 +676,73 @@
         
         <article class="media">
             
-            <a href="/2020/02/29/hello-world/" class="media-left">
+            <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hello World">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn资源调优参数及案例">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-29T15:03:42.119Z">2020-02-29</time></div>
-                    <a href="/2020/02/29/hello-world/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hello World</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn资源调优参数及案例</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="MapReduce的工作原理图文详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:11.130Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MapReduce的工作原理图文详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn和MapReduce的内存优化配置详解">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:03:35.990Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn和MapReduce的内存优化配置详解</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="YARN架构设计">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:02:30.200Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">YARN架构设计</a>
                     <p class="is-size-7 is-uppercase">
                         
                     </p>
@@ -580,7 +767,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">26</span>
                 </span>
             </a>
         </li>
@@ -630,7 +817,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 John Doe&nbsp;
+                &copy; 2020 zzztime&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

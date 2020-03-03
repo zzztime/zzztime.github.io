@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>YARN的Memory和CPU调优配置详解 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="Hadoop YARN同时支持内存和CPU两种资源的调度，本文介绍如何配置YARN对内存和CPU的使用。 YARN作为一个资源调度器，应该考虑到集群里面每一台机子的计算资源，然后根据application申请的资源进行分配Container。Container是YARN里面资源分配的基本单位，具有一定的内存以及CPU资源。 在YARN集群中，平衡内存、CPU、磁盘的资源的很重要的，根据经验，每两">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YARN的Memory和CPU调优配置详解">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/YARN%E7%9A%84Memory%E5%92%8CCPU%E8%B0%83%E4%BC%98%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="Hadoop YARN同时支持内存和CPU两种资源的调度，本文介绍如何配置YARN对内存和CPU的使用。 YARN作为一个资源调度器，应该考虑到集群里面每一台机子的计算资源，然后根据application申请的资源进行分配Container。Container是YARN里面资源分配的基本单位，具有一定的内存以及CPU资源。 在YARN集群中，平衡内存、CPU、磁盘的资源的很重要的，根据经验，每两">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T06:02:12.800Z">
+<meta property="article:modified_time" content="2020-03-03T08:19:57.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,306 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:02:12.800Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2181 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                YARN的Memory和CPU调优配置详解
+            
+        </h1>
+        <div class="content">
+            <p> Hadoop YARN同时支持内存和CPU两种资源的调度，本文介绍如何配置YARN对内存和CPU的使用。</p>
+<p>YARN作为一个资源调度器，应该考虑到集群里面每一台机子的计算资源，然后根据application申请的资源进行分配Container。Container是YARN里面资源分配的基本单位，具有一定的内存以及CPU资源。</p>
+<p>在YARN集群中，平衡内存、CPU、磁盘的资源的很重要的，根据经验，每两个container使用一块磁盘以及一个CPU核的时候可以使集群的资源得到一个比较好的利用。<br>内存配置</p>
+<a id="more"></a>
+<p>关于内存相关的配置可以参考hortonwork公司的文档Determine HDP Memory Configuration Settings来配置你的集群。</p>
+<pre><code>YARN以及MAPREDUCE所有可用的内存资源应该要除去系统运行需要的以及其他的hadoop的一些程序，总共保留的内存=系统内存+HBASE内存。</code></pre><p>可以参考下面的表格确定应该保留的内存：<br>每台机子内存     系统需要的内存     HBase需要的内存<br>4GB     1GB     1GB<br>8GB     2GB     1GB<br>16GB     2GB     2GB<br>24GB     4GB     4GB<br>48GB     6GB     8GB<br>64GB     8GB     8GB<br>72GB     8GB     8GB<br>96GB     12GB     16GB<br>128GB     24GB     24GB<br>255GB     32GB     32GB<br>512GB     64GB     64GB</p>
+<p>计算每台机子最多可以拥有多少个container，可以使用下面的公式:</p>
+<p>containers = min (2<em>CORES, 1.8</em>DISKS, (Total available RAM) / MIN_CONTAINER_SIZE)</p>
+<p>说明：</p>
+<pre><code>CORES为机器CPU核数
+DISKS为机器上挂载的磁盘个数
+Total available RAM为机器总内存
+MIN_CONTAINER_SIZE是指container最小的容量大小，这需要根据具体情况去设置，可以参考下面的表格：</code></pre><p>每台机子可用的RAM     container最小值<br>小于4GB     256MB<br>4GB到8GB之间     512MB<br>8GB到24GB之间     1024MB<br>大于24GB     2048MB</p>
+<p>每个container的平均使用内存大小计算方式为：</p>
+<p>RAM-per-container = max(MIN_CONTAINER_SIZE, (Total Available RAM) / containers))</p>
+<p>通过上面的计算，YARN以及MAPREDUCE可以这样配置：<br>配置文件     配置设置     默认值     计算值<br>yarn-site.xml     yarn.nodemanager.resource.memory-mb     8192 MB     = containers * RAM-per-container<br>yarn-site.xml     yarn.scheduler.minimum-allocation-mb     1024MB     = RAM-per-container<br>yarn-site.xml     yarn.scheduler.maximum-allocation-mb     8192 MB     = containers * RAM-per-container<br>yarn-site.xml (check)     yarn.app.mapreduce.am.resource.mb     1536 MB     = 2 * RAM-per-container<br>yarn-site.xml (check)     yarn.app.mapreduce.am.command-opts     -Xmx1024m     = 0.8 * 2 * RAM-per-container<br>mapred-site.xml     mapreduce.map.memory.mb     1024 MB     = RAM-per-container<br>mapred-site.xml     mapreduce.reduce.memory.mb     1024 MB     = 2 * RAM-per-container<br>mapred-site.xml     mapreduce.map.java.opts           = 0.8 * RAM-per-container<br>mapred-site.xml     mapreduce.reduce.java.opts           = 0.8 * 2 * RAM-per-container</p>
+<p>举个例子：对于128G内存、32核CPU的机器，挂载了7个磁盘，根据上面的说明，系统保留内存为24G，不适应HBase情况下，系统剩余可用内存为104G，计算containers值如下：</p>
+<p>containers = min (2<em>32, 1.8</em> 7 , (128-24)/2) = min (64, 12.6 , 51) = 13</p>
+<p>计算RAM-per-container值如下：</p>
+<p>RAM-per-container = max (2, (124-24)/13) = max (2, 8) = 8</p>
+<p>你也可以使用脚本yarn-utils.py来计算上面的值：</p>
+<pre><code>#!/usr/bin/env python
+import optparse
+from pprint import pprint
+import logging
+import sys
+import math
+import ast
+
+&apos;&apos;&apos; Reserved for OS + DN + NM, Map: Memory =&gt; Reservation &apos;&apos;&apos;
+reservedStack = { 4:1, 8:2, 16:2, 24:4, 48:6, 64:8, 72:8, 96:12,
+                   128:24, 256:32, 512:64}
+&apos;&apos;&apos; Reserved for HBase. Map: Memory =&gt; Reservation &apos;&apos;&apos;
+
+reservedHBase = {4:1, 8:1, 16:2, 24:4, 48:8, 64:8, 72:8, 96:16,
+                   128:24, 256:32, 512:64}
+GB = 1024
+
+def getMinContainerSize(memory):
+  if (memory &lt;= 4):
+    return 256
+  elif (memory &lt;= 8):
+    return 512
+  elif (memory &lt;= 24):
+    return 1024
+  else:
+    return 2048
+  pass
+
+def getReservedStackMemory(memory):
+  if (reservedStack.has_key(memory)):
+    return reservedStack[memory]
+  if (memory &lt;= 4):
+    ret = 1
+  elif (memory &gt;= 512):
+    ret = 64
+  else:
+    ret = 1
+  return ret
+
+def getReservedHBaseMem(memory):
+  if (reservedHBase.has_key(memory)):
+    return reservedHBase[memory]
+  if (memory &lt;= 4):
+    ret = 1
+  elif (memory &gt;= 512):
+    ret = 64
+  else:
+    ret = 2
+  return ret
+
+def main():
+  log = logging.getLogger(__name__)
+  out_hdlr = logging.StreamHandler(sys.stdout)
+  out_hdlr.setFormatter(logging.Formatter(&apos; %(message)s&apos;))
+  out_hdlr.setLevel(logging.INFO)
+  log.addHandler(out_hdlr)
+  log.setLevel(logging.INFO)
+  parser = optparse.OptionParser()
+  memory = 0
+  cores = 0
+  disks = 0
+  hbaseEnabled = True
+  parser.add_option(&apos;-c&apos;, &apos;--cores&apos;, default = 16,
+                     help = &apos;Number of cores on each host&apos;)
+  parser.add_option(&apos;-m&apos;, &apos;--memory&apos;, default = 64,
+                    help = &apos;Amount of Memory on each host in GB&apos;)
+  parser.add_option(&apos;-d&apos;, &apos;--disks&apos;, default = 4,
+                    help = &apos;Number of disks on each host&apos;)
+  parser.add_option(&apos;-k&apos;, &apos;--hbase&apos;, default = &quot;True&quot;,
+                    help = &apos;True if HBase is installed, False is not&apos;)
+  (options, args) = parser.parse_args()
+
+  cores = int (options.cores)
+  memory = int (options.memory)
+  disks = int (options.disks)
+  hbaseEnabled = ast.literal_eval(options.hbase)
+
+  log.info(&quot;Using cores=&quot; + str(cores) + &quot; memory=&quot; + str(memory) + &quot;GB&quot; +
+            &quot; disks=&quot; + str(disks) + &quot; hbase=&quot; + str(hbaseEnabled))
+  minContainerSize = getMinContainerSize(memory)
+  reservedStackMemory = getReservedStackMemory(memory)
+  reservedHBaseMemory = 0
+  if (hbaseEnabled):
+    reservedHBaseMemory = getReservedHBaseMem(memory)
+  reservedMem = reservedStackMemory + reservedHBaseMemory
+  usableMem = memory - reservedMem
+  memory -= (reservedMem)
+  if (memory &lt; 2):
+    memory = 2
+    reservedMem = max(0, memory - reservedMem)
+
+  memory *= GB
+
+  containers = int (min(2 * cores,
+                         min(math.ceil(1.8 * float(disks)),
+                              memory/minContainerSize)))
+  if (containers &lt;= 2):
+    containers = 3
+
+  log.info(&quot;Profile: cores=&quot; + str(cores) + &quot; memory=&quot; + str(memory) + &quot;MB&quot;
+           + &quot; reserved=&quot; + str(reservedMem) + &quot;GB&quot; + &quot; usableMem=&quot;
+           + str(usableMem) + &quot;GB&quot; + &quot; disks=&quot; + str(disks))
+
+  container_ram = abs(memory/containers)
+  if (container_ram &gt; GB):
+    container_ram = int(math.floor(container_ram / 512)) * 512
+  log.info(&quot;Num Container=&quot; + str(containers))
+  log.info(&quot;Container Ram=&quot; + str(container_ram) + &quot;MB&quot;)
+  log.info(&quot;Used Ram=&quot; + str(int (containers*container_ram/float(GB))) + &quot;GB&quot;)
+  log.info(&quot;Unused Ram=&quot; + str(reservedMem) + &quot;GB&quot;)
+  log.info(&quot;yarn.scheduler.minimum-allocation-mb=&quot; + str(container_ram))
+  log.info(&quot;yarn.scheduler.maximum-allocation-mb=&quot; + str(containers*container_ram))
+  log.info(&quot;yarn.nodemanager.resource.memory-mb=&quot; + str(containers*container_ram))
+  map_memory = container_ram
+  reduce_memory = 2*container_ram if (container_ram &lt;= 2048) else container_ram
+  am_memory = max(map_memory, reduce_memory)
+  log.info(&quot;mapreduce.map.memory.mb=&quot; + str(map_memory))
+  log.info(&quot;mapreduce.map.java.opts=-Xmx&quot; + str(int(0.8 * map_memory)) +&quot;m&quot;)
+  log.info(&quot;mapreduce.reduce.memory.mb=&quot; + str(reduce_memory))
+  log.info(&quot;mapreduce.reduce.java.opts=-Xmx&quot; + str(int(0.8 * reduce_memory)) + &quot;m&quot;)
+  log.info(&quot;yarn.app.mapreduce.am.resource.mb=&quot; + str(am_memory))
+  log.info(&quot;yarn.app.mapreduce.am.command-opts=-Xmx&quot; + str(int(0.8*am_memory)) + &quot;m&quot;)
+  log.info(&quot;mapreduce.task.io.sort.mb=&quot; + str(int(0.4 * map_memory)))
+  pass
+
+if __name__ == &apos;__main__&apos;:
+  try:
+    main()
+  except(KeyboardInterrupt, EOFError):
+    print(&quot;\nAborting ... Keyboard Interrupt.&quot;)
+    sys.exit(1)</code></pre><p>执行下面命令：</p>
+<p>python yarn-utils.py -c 32 -m 128 -d 7 -k False </p>
+<p>返回结果如下：</p>
+<pre><code>Using cores=32 memory=128GB disks=7 hbase=False
+ Profile: cores=32 memory=106496MB reserved=24GB usableMem=104GB disks=7
+ Num Container=13
+ Container Ram=8192MB
+ Used Ram=104GB
+ Unused Ram=24GB
+ yarn.scheduler.minimum-allocation-mb=8192
+ yarn.scheduler.maximum-allocation-mb=106496
+ yarn.nodemanager.resource.memory-mb=106496
+ mapreduce.map.memory.mb=8192
+ mapreduce.map.java.opts=-Xmx6553m
+ mapreduce.reduce.memory.mb=8192
+ mapreduce.reduce.java.opts=-Xmx6553m
+ yarn.app.mapreduce.am.resource.mb=8192
+ yarn.app.mapreduce.am.command-opts=-Xmx6553m
+ mapreduce.task.io.sort.mb=3276</code></pre><p>这样的话，每个container内存为8G，似乎有点多，我更愿意根据集群使用情况任务将其调整为2G内存，则集群中下面的参数配置值如下：<br>配置文件     配置设置     计算值<br>yarn-site.xml     yarn.nodemanager.resource.memory-mb     = 52 * 2 =104 G<br>yarn-site.xml     yarn.scheduler.minimum-allocation-mb     = 2G<br>yarn-site.xml     yarn.scheduler.maximum-allocation-mb     = 52 * 2 = 104G<br>yarn-site.xml (check)     yarn.app.mapreduce.am.resource.mb     = 2 * 2=4G<br>yarn-site.xml (check)     yarn.app.mapreduce.am.command-opts     = 0.8 * 2 * 2=3.2G<br>mapred-site.xml     mapreduce.map.memory.mb     = 2G<br>mapred-site.xml     mapreduce.reduce.memory.mb     = 2 * 2=4G<br>mapred-site.xml     mapreduce.map.java.opts     = 0.8 * 2=1.6G<br>mapred-site.xml     mapreduce.reduce.java.opts     = 0.8 * 2 * 2=3.2G</p>
+<p>对应的xml配置为：</p>
+<pre><code>&lt;property&gt;
+      &lt;name&gt;yarn.nodemanager.resource.memory-mb&lt;/name&gt;
+      &lt;value&gt;106496&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;yarn.scheduler.minimum-allocation-mb&lt;/name&gt;
+      &lt;value&gt;2048&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;yarn.scheduler.maximum-allocation-mb&lt;/name&gt;
+      &lt;value&gt;106496&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;yarn.app.mapreduce.am.resource.mb&lt;/name&gt;
+      &lt;value&gt;4096&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;yarn.app.mapreduce.am.command-opts&lt;/name&gt;
+      &lt;value&gt;-Xmx3276m&lt;/value&gt;
+  &lt;/property&gt;</code></pre><p>另外，还有一下几个参数：</p>
+<pre><code>yarn.nodemanager.vmem-pmem-ratio：任务每使用1MB物理内存，最多可使用虚拟内存量，默认是2.1。
+yarn.nodemanager.pmem-check-enabled：是否启动一个线程检查每个任务正使用的物理内存量，如果任务超出分配值，则直接将其杀掉，默认是true。
+yarn.nodemanager.vmem-pmem-ratio：是否启动一个线程检查每个任务正使用的虚拟内存量，如果任务超出分配值，则直接将其杀掉，默认是true。</code></pre><p>第一个参数的意思是当一个map任务总共分配的物理内存为2G的时候，该任务的container最多内分配的堆内存为1.6G，可以分配的虚拟内存上限为2*2.1=4.2G。另外，照这样算下去，每个节点上YARN可以启动的Map数为104/2=52个。<br>CPU配置</p>
+<p>YARN中目前的CPU被划分成虚拟CPU（CPU virtual Core），这里的虚拟CPU是YARN自己引入的概念，初衷是，考虑到不同节点的CPU性能可能不同，每个CPU具有的计算能力也是不一样的，比如某个物理CPU的计算能力可能是另外一个物理CPU的2倍，这时候，你可以通过为第一个物理CPU多配置几个虚拟CPU弥补这种差异。用户提交作业时，可以指定每个任务需要的虚拟CPU个数。</p>
+<p>在YARN中，CPU相关配置参数如下：</p>
+<pre><code>yarn.nodemanager.resource.cpu-vcores：表示该节点上YARN可使用的虚拟CPU个数，默认是8，注意，目前推荐将该值设值为与物理CPU核数数目相同。如果你的节点CPU核数不够8个，则需要调减小这个值，而YARN不会智能的探测节点的物理CPU总数。
+yarn.scheduler.minimum-allocation-vcores：单个任务可申请的最小虚拟CPU个数，默认是1，如果一个任务申请的CPU个数少于该数，则该对应的值改为这个数。
+yarn.scheduler.maximum-allocation-vcores：单个任务可申请的最多虚拟CPU个数，默认是32。</code></pre><p>对于一个CPU核数较多的集群来说，上面的默认配置显然是不合适的，在我的测试集群中，4个节点每个机器CPU核数为31，留一个给操作系统，可以配置为：</p>
+<pre><code>&lt;property&gt;
+      &lt;name&gt;yarn.nodemanager.resource.cpu-vcores&lt;/name&gt;
+      &lt;value&gt;31&lt;/value&gt;
+  &lt;/property&gt;
+  &lt;property&gt;
+      &lt;name&gt;yarn.scheduler.maximum-allocation-vcores&lt;/name&gt;
+      &lt;value&gt;124&lt;/value&gt;
+  &lt;/property&gt;</code></pre>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">YARN架构设计</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/HDFS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+                <span class="level-item">HDFS常用命令</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +936,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 YARN的Memory和CPU调优配置详解&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

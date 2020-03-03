@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>进程PID与端口号PORT - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="一个进程有很多个端口号（对内），只有一个端口号（对外） 1、关于进程pid进程管理会用到的命令|命令| 含义 ||–|–|| ps -ef |查看系统中的进程  || grep  | 将后台进程中指定的文件过滤出来 ||grep -v|过滤排除|| kill -9 pid | 杀死进程 ||kill -9 $(pgrep -f tail)| 杀死关于tail命令的所有进程 |">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程PID与端口号PORT">
+<meta property="og:url" content="http://yoursite.com/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="一个进程有很多个端口号（对内），只有一个端口号（对外） 1、关于进程pid进程管理会用到的命令|命令| 含义 ||–|–|| ps -ef |查看系统中的进程  || grep  | 将后台进程中指定的文件过滤出来 ||grep -v|过滤排除|| kill -9 pid | 杀死进程 ||kill -9 $(pgrep -f tail)| 杀死关于tail命令的所有进程 |">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-02T14:45:38.291Z">
+<meta property="article:modified_time" content="2020-03-02T14:50:17.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,110 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-02T14:45:38.291Z">2020-03-02</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 456 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                进程PID与端口号PORT
+            
+        </h1>
+        <div class="content">
+            <p>一个进程有很多个端口号（对内），只有一个端口号（对外）</p>
+<p>1、关于进程pid<br>进程管理会用到的命令<br>|命令| 含义 |<br>|–|–|<br>| ps -ef |查看系统中的进程  |<br>| grep  | 将后台进程中指定的文件过滤出来 |<br>|grep -v|过滤排除|<br>| kill -9 pid | 杀死进程 |<br>|kill -9 $(pgrep -f tail)| 杀死关于tail命令的所有进程 |</p>
+<a id="more"></a> 
+<p>kill -9 pid<br>杀死多个进程：kill -9 2873 3764<br>pgrep -f tail 将tail过滤出来的进程打印出来<br>[root@hadoop001 ~]# echo $(pgrep -f tail)<br>将打印出来的进程由纵列变成横列<br>[root@hadoop001 ~]# kill -9 $(pgrep -f tail)<br>杀死关于tail命令的所有进程<br>提醒：生产上假如非要执行kill杀进程，一定要确认清楚是否真的需要kill</p>
+<p>查看进程执行如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ps -ef|grep tail</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">root      3144  2919  0 02:06 pts&#x2F;0    00:00:00 grep tail</span><br><span class="line">[root@hadoop001 ~]# ps -ef|grep tail | grep -v grep</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">[root@hadoop001 ~]# ps -ef|grep 2981</span><br><span class="line">root      2981  2977  0 01:28 pts&#x2F;1    00:00:00 -bash</span><br><span class="line">root      3140  2981  0 02:05 pts&#x2F;1    00:00:00 tail -F tail.log</span><br><span class="line">root      3172  2919  0 02:19 pts&#x2F;0    00:00:00 grep 2981</span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+
+<p>2、关于端口号port<br>查找端口号是先通过进程名称找到pid ，再通过pid找到该进程的端口号<br>以ssh为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# ps -ef|grep ssh</span><br><span class="line">root      1475     1  0 Jun19 ?        00:00:00 &#x2F;usr&#x2F;sbin&#x2F;sshd</span><br><span class="line">root      2915  1475  0 01:09 ?        00:00:01 sshd: root@pts&#x2F;0 </span><br><span class="line">root      2977  1475  0 01:28 ?        00:00:00 sshd: root@pts&#x2F;1 </span><br><span class="line">root      3230  2919  0 02:42 pts&#x2F;0    00:00:00 grep ssh</span><br><span class="line">[root@hadoop001 ~]# netstat -nlp|grep 1475</span><br><span class="line">tcp        0      0 0.0.0.0:22                  0.0.0.0:*                   LISTEN      1475&#x2F;sshd           </span><br><span class="line">tcp        0      0 :::22                       :::*                        LISTEN      1475&#x2F;sshd           </span><br><span class="line">[root@hadoop001 ~]#</span><br></pre></td></tr></table></figure>
+<p>ssh服务的端口是22，一般ssh端口号不能为22，需要调整，防止攻击<br>端口号对外服务的ip地址，假如为127.0.0.1或localhost,只能在这台的机器上访问这个服务。<br>一般这个地址为机器的ip或0.0.0.0 或 :::，表示对外的任意ip可以服务<br>过滤进程的正常流程：<br>进程名称–&gt;pid–&gt;port<br>可以通过port检验端口号是否正确是否变更</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">登录MySQL时出现Access denied的错误提示</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/02/Linux%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%94%99%E8%AF%AF%E4%B8%8E%E6%A0%A1%E9%AA%8C%E6%96%B9%E6%B3%95/">
+                <span class="level-item">Linux中常见的错误与校验方法</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +740,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 进程PID与端口号PORT&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 

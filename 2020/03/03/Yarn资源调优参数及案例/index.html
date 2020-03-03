@@ -7,15 +7,19 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>分类 - zzztime</title>
+<title>Yarn资源调优参数及案例 - zzztime</title>
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="zzztime">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+    <meta name="description" content="1.yarn内存调优 说明：yarn主件的nodemanager进程管理的resource的memory资源可以分配给容器的物理内存(以MB为单位)。如果设置为-1，并yarn.nodemanager.resource.detect-hardware- capability为真，则自动计算(在Windows和Linux中)。在其他情况下，默认值是8192MB。yarn.nodemanager.re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yarn资源调优参数及案例">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/index.html">
 <meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="1.yarn内存调优 说明：yarn主件的nodemanager进程管理的resource的memory资源可以分配给容器的物理内存(以MB为单位)。如果设置为-1，并yarn.nodemanager.resource.detect-hardware- capability为真，则自动计算(在Windows和Linux中)。在其他情况下，默认值是8192MB。yarn.nodemanager.re">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T06:04:41.020Z">
+<meta property="article:modified_time" content="2020-03-03T08:37:10.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
 
@@ -89,7 +93,7 @@
                 <a class="navbar-item"
                 href="/archives">归档</a>
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/categories">分类</a>
                 
                 <a class="navbar-item"
@@ -125,18 +129,116 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                分类
-            </h3>
-            <ul class="menu-list">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 630 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-            </ul>
+                Yarn资源调优参数及案例
+            
+        </h1>
+        <div class="content">
+            <p>1.yarn内存调优</p>
+<p>说明：yarn主件的nodemanager进程管理的resource的memory资源<br>可以分配给容器的物理内存(以MB为单位)。如果设置为-1，并yarn.nodemanager.resource.detect-hardware- capability为真，则自动计算(在Windows和Linux中)。在其他情况下，默认值是8192MB。<br>yarn.nodemanager.resource.memory-mb<br>yarn.scheduler.minimum-allocation-mb 分配的最小内存大小默认为1024MB<br>yarn.scheduler.maximum-allocation-mb 分配的最大内存大小默认为8192MB</p>
+<a id="more"></a>
+
+
+
+<p>2.yarnCPU调优</p>
+<p>说明：Vcores ,虚拟的core，是yarn提出的<br>物理core:vcore=1:2<br>可以分配给容器的vcore数量。这是RM调度程序在为容器分配资源时使用的。这并不用于限制yarn容器使用的cpu数量。如果将其设置为-1，并且yarn.nodemanager.resource.detect-hardware- capability为真，则在Windows和Linux中，将从硬件自动确定它。在其他情况下，vcore的数量默认为8。<br>yarn.nodemanager.resource.cpu-vcores<br>yarn.scheduler.minimum-allocation-vcores 分配给容器的最小vcore数量为1<br>yarn.scheduler.maximum-allocation-vcores 分配给容器的最大vcore数量为4</p>
+<p>3案例<br>机器的物理内存大小为64G   16cores   怎样资源最大化利用</p>
+<p>一般会分配2G给各系统，实际可用内存为62G，系统不会消耗CUP，所以CPU的核数还是16c。<br>通常会预留15%-20%的内存，以防内存消耗完，会触发OOM机制。<br>62*80%=50G给计算资源<br>剩余12G, 通常分配4G给我们的datanode，分配1G给我们的nodemanager， 剩余7G<br>计算时会启动Container容器，启动额外的进程需要一定的内存</p>
+<p>剩余的50G，可以这样分配。</p>
+<blockquote>
+<p>yarn.nodemanager.resource.memory-mb : 50G  计算总内存<br>yarn.scheduler.minimum-allocation-mb : 1G<br>increment<br>yarn.scheduler.maximum-allocation-mb : 1G–&gt;50G<br>#所以Container的个数范围：1~50<br>#DN memory:4G<br>#Nm memory:1G<br>#有16c–&gt;会有32vcore，尽量不要超出32vcore</p>
+</blockquote>
+<p>yarn.nodemanager.resource.memory-mb   50G<br>yarn.nodemanager.resource.cpu-vcores  32c 我们将一核虚拟化成2个vcore<br>yarn.scheduler.minimum-allocation-mb  2G  根据业务设置<br>yarn.scheduler.minimum-allocation-vcores  2c 根据业务设置，根据需要递增的<br>yarn.scheduler.maximum-allocation-mb  8G 根据业务设置<br>yarn.scheduler.maximum-allocation-vcores   4c  这个值可以确定，经过clouder公司测试，vcores在小于5的时候，性能是最佳的</p>
+<p>注：内存不够的时候会自动累加，Vcore不够的时候不会自动累加，需要在启动的时候设置</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Alipay. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>qrcode</code> for Wechat. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                <!-- Visit https://www.paypal.com/donate/buttons/ to get your donate button -->
+
+<div class="notification is-danger">
+    You forgot to set the <code>business</code> and <code>currency_code</code> for Paypal. Please set it in <code>_config.yml</code>.
+</div>
+
+                
+                
+<div class="notification is-danger">
+    You forgot to set the <code>url</code> Patreon. Please set it in <code>_config.yml</code>.
+</div>
+
+                
         </div>
     </div>
-</div></div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Wordcount案例的shuffle</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/">
+                <span class="level-item">MapReduce的工作原理图文详解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
                 
 
 
@@ -644,7 +746,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2020 zzztime&nbsp;
+                &copy; 2020 Yarn资源调优参数及案例&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
