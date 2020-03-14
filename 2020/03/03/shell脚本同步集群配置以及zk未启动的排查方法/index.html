@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>shell脚本同步集群配置以及zk未启动的排查方法 - zzztime</title>
+
+
+    <meta name="description" content="一、shell脚本同步集群配置说明维护集群不可能每台机器都通过win上传文件，通过写脚本，以第一台为标准进行配置，下发到所有机器，除非有些参数需要动态去修改1、需要的shell脚本，给脚本一个x的权限 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1_GsD--aJtQjSsjKINzBfRA提取码：l2i7  2、使用scp适用于机器少的情况使用scp的情况适用于机器少的时候，如果集群有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="shell脚本同步集群配置以及zk未启动的排查方法">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="一、shell脚本同步集群配置说明维护集群不可能每台机器都通过win上传文件，通过写脚本，以第一台为标准进行配置，下发到所有机器，除非有些参数需要动态去修改1、需要的shell脚本，给脚本一个x的权限 链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1_GsD--aJtQjSsjKINzBfRA提取码：l2i7  2、使用scp适用于机器少的情况使用scp的情况适用于机器少的时候，如果集群有">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T06:16:01.315Z">
+<meta property="article:modified_time" content="2020-03-03T15:03:48.119Z">
+<meta property="article:tag" content="Shell">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                zzztime
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">主页</a>
+                
+                <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
+                href="/categories">分类</a>
+                
+                <a class="navbar-item"
+                href="/tags">标签</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1752 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                shell脚本同步集群配置以及zk未启动的排查方法
+            
+        </h1>
+        <div class="content">
+            <p>一、shell脚本同步集群配置说明<br>维护集群不可能每台机器都通过win上传文件，通过写脚本，以第一台为标准进行配置，下发到所有机器，除非有些参数需要动态去修改<br>1、需要的shell脚本，给脚本一个x的权限</p>
+<p>链接：<a href="https://pan.baidu.com/s/1_GsD--aJtQjSsjKINzBfRA">https://pan.baidu.com/s/1_GsD--aJtQjSsjKINzBfRA</a><br>提取码：l2i7 </p>
+<p>2、使用scp适用于机器少的情况<br>使用scp的情况适用于机器少的时候，如果集群有1000或者更多的话，写scp要写1000行不现实，可以写一个for循环去处理，只要机器命名的命名规则是一样的，后面的001/002/003都是可以进行递增的<br>另外：维护一个txt,txt文档里面维护了ruozedata001/002/003机器名称的列表，写for循环的时候可以直接获取每一行每一个机器名字</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ cat sync_hadoop.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash -x</span><br><span class="line"></span><br><span class="line">HADOOP_CONF&#x3D;&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;etc&#x2F;hadoop&#x2F;</span><br><span class="line"></span><br><span class="line">cd $HADOOP_CONF</span><br><span class="line"></span><br><span class="line">scp hadoop-env.sh core-site.xml hdfs-site.xml mapred-site.xml yarn-site.xml  ruozedata002:$HADOOP_CONF</span><br><span class="line">scp hadoop-env.sh core-site.xml hdfs-site.xml mapred-site.xml yarn-site.xml  ruozedata003:$HADOOP_CONF</span><br><span class="line"></span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<p>1、./sync_hadoop.sh<br>以第一台机器为版本同步xml文件和env.sh脚本到其他机器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;sync_hadoop.sh</span><br><span class="line">+ HADOOP_CONF&#x3D;&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;etc&#x2F;hadoop&#x2F;</span><br><span class="line">+ cd &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;etc&#x2F;hadoop&#x2F;</span><br><span class="line">+ scp hadoop-env.sh core-site.xml hdfs-site.xml mapred-site.xml yarn-site.xml ruozedata002:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;etc&#x2F;hadoop&#x2F;</span><br><span class="line">hadoop-env.sh                                                                  100% 4233     4.1KB&#x2F;s   00:00    </span><br><span class="line">core-site.xml                                                                  100% 2360     2.3KB&#x2F;s   00:00    </span><br><span class="line">hdfs-site.xml                                                                  100% 4544     4.4KB&#x2F;s   00:00    </span><br><span class="line">mapred-site.xml                                                                100% 1063     1.0KB&#x2F;s   00:00    </span><br><span class="line">yarn-site.xml                                                                  100% 5334     5.2KB&#x2F;s   00:00    </span><br><span class="line">+ scp hadoop-env.sh core-site.xml hdfs-site.xml mapred-site.xml yarn-site.xml ruozedata003:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;etc&#x2F;hadoop&#x2F;</span><br><span class="line">hadoop-env.sh                                                                  100% 4233     4.1KB&#x2F;s   00:00    </span><br><span class="line">core-site.xml                                                                  100% 2360     2.3KB&#x2F;s   00:00    </span><br><span class="line">hdfs-site.xml                                                                  100% 4544     4.4KB&#x2F;s   00:00    </span><br><span class="line">mapred-site.xml                                                                100% 1063     1.0KB&#x2F;s   00:00    </span><br><span class="line">yarn-site.xml                                                                  100% 5334     5.2KB&#x2F;s   00:00    </span><br><span class="line">+ exit 0</span><br></pre></td></tr></table></figure>
+<p>2、jps.sh<br> 执行jps.sh，只有jps本身进程启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;jps.sh</span><br><span class="line">+ echo &#39;----------ruozedata001 process------------&#39;</span><br><span class="line">----------ruozedata001 process------------</span><br><span class="line">+ ssh ruozedata001 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;jps</span><br><span class="line">2743 Jps</span><br><span class="line">+ echo &#39;                                                &#39;</span><br><span class="line">                                                </span><br><span class="line">+ echo &#39;----------ruozedata002 process------------&#39;</span><br><span class="line">----------ruozedata002 process------------</span><br><span class="line">+ ssh ruozedata002 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;jps</span><br><span class="line">2229 Jps</span><br><span class="line">+ echo &#39;                                                &#39;</span><br><span class="line">                                                </span><br><span class="line">+ echo &#39;----------ruozedata003 process------------&#39;</span><br><span class="line">----------ruozedata003 process------------</span><br><span class="line">+ ssh ruozedata003 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;jps</span><br><span class="line">2231 Jps</span><br><span class="line">+ echo &#39;</span><br></pre></td></tr></table></figure>
+<p>3、start_cluster.sh<br>3.1  ./start_cluster.sh  执行启动集群的脚本， ./jps.sh查看启动的进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;jps.sh</span><br><span class="line">+ echo &#39;----------ruozedata001 process------------&#39;</span><br><span class="line">----------ruozedata001 process------------</span><br><span class="line">+ ssh ruozedata001 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;jps</span><br><span class="line">3216 JournalNode</span><br><span class="line">3796 Jps</span><br><span class="line">2920 NameNode</span><br><span class="line">3740 JobHistoryServer</span><br><span class="line">3023 DataNode</span><br><span class="line">3583 NodeManager</span><br><span class="line">zookeeper的进程没有启动</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ ps -ef | grep zookeeper</span><br><span class="line">hadoop    3850  2711  0 16:47 pts&#x2F;0    00:00:00 grep --color&#x3D;auto zookeeper</span><br></pre></td></tr></table></figure>
+<p>3.2 找zk log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 ~]$ cd app&#x2F;zookeeper</span><br><span class="line">log日志一般在配置文件里面</span><br><span class="line">[hadoop@ruozedata001 zookeeper]$ cd conf</span><br><span class="line">一般是在cfg里面</span><br><span class="line">[hadoop@ruozedata001 conf]$ cat zoo.cfg</span><br><span class="line">可以看到data的路径，没有问题</span><br><span class="line">dataDir&#x3D;&#x2F;home&#x2F;hadoop&#x2F;data&#x2F;zookeeper</span><br><span class="line"></span><br><span class="line">查看log4j.properties</span><br><span class="line">[hadoop@ruozedata001 conf]$ more log4j.properties</span><br><span class="line"># Define some default values that can be overridden by system properties</span><br><span class="line">zookeeper.root.logger&#x3D;INFO, CONSOLE</span><br><span class="line">zookeeper.console.threshold&#x3D;INFO</span><br><span class="line">zookeeper.log.dir&#x3D;.     .代表的是当前路径</span><br><span class="line">zookeeper.log.file&#x3D;zookeeper.log   找到log日志文件是zookeeper.log</span><br></pre></td></tr></table></figure>
+<p>3.3找不到zookeeper.log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">查找zookeeper.log日志文件位置，找不到zookeeper.log</span><br><span class="line">[hadoop@ruozedata001 conf]$ find &#x2F;home&#x2F;hadoop -name &#39;zookeeper.log&#39; </span><br><span class="line">[hadoop@ruozedata001 conf]$ exit</span><br><span class="line">logout</span><br><span class="line">[root@ruozedata001 ~]# find &#x2F; -name &#39;zookeeper.log&#39;</span><br></pre></td></tr></table></figure>
+<p>3.4 zkServer.sh 启动源头<br>zkServer.sh start|stop|status</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 bin]$ vi zkServer.sh</span><br><span class="line">case $1 in</span><br><span class="line">start)</span><br><span class="line">    echo  -n &quot;Starting zookeeper ... &quot;</span><br><span class="line">    if [ -f &quot;$ZOOPIDFILE&quot; ]; then</span><br><span class="line">      if kill -0 &#96;cat &quot;$ZOOPIDFILE&quot;&#96; &gt; &#x2F;dev&#x2F;null 2&gt;&amp;1; then</span><br><span class="line">         echo $command already running as process &#96;cat &quot;$ZOOPIDFILE&quot;&#96;.</span><br><span class="line">         exit 0</span><br><span class="line">      fi</span><br><span class="line">    fi</span><br><span class="line">    nohup &quot;$JAVA&quot; &quot;-Dzookeeper.log.dir&#x3D;$&#123;ZOO_LOG_DIR&#125;&quot; &quot;-Dzookeeper.root.logger&#x3D;$&#123;ZOO_LOG4J_PROP&#125;&quot; \</span><br><span class="line">    -cp &quot;$CLASSPATH&quot; $JVMFLAGS $ZOOMAIN &quot;$ZOOCFG&quot; &gt; &quot;$_ZOO_DAEMON_OUT&quot; 2&gt;&amp;1 &lt; &#x2F;dev&#x2F;null &amp;</span><br><span class="line">    if [ $? -eq 0 ]</span><br><span class="line">    then</span><br><span class="line">#nohup  ----&amp;  这个是标准的后台执行的一个shell脚本的程序</span><br><span class="line">#nohup xxx &gt; xxx.log  | 2&gt;&amp;1 &amp; </span><br><span class="line">#搜索:&#x2F;ZOO_LOG_DIR&#x3D; 不存在</span><br><span class="line">if [ ! -w &quot;$ZOO_LOG_DIR&quot; ] ; then</span><br><span class="line">mkdir -p &quot;$ZOO_LOG_DIR&quot;</span><br><span class="line">fi</span><br><span class="line">_ZOO_DAEMON_OUT&#x3D;&quot;$ZOO_LOG_DIR&#x2F;zookeeper.out&quot;</span><br><span class="line">找到log文件的名字输出是zookeeper.out</span><br></pre></td></tr></table></figure>
+<p>3.5 找到log文件的名字输出是zookeeper.out</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@ruozedata001 hadoop]# cat zookeeper.out</span><br><span class="line">nohup: failed to run command ‘java’: No such file or directory</span><br><span class="line">[root@ruozedata001 hadoop]# </span><br><span class="line">[root@ruozedata002 ~]# which java</span><br><span class="line">&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java</span><br></pre></td></tr></table></figure>
+<p>3.6 分析错误:<br>nohup: failed to run command ‘java’: No such file or directory<br>既然存在，可以先cat start_cluster.sh   可以看到启动的是ssh zuozedata001  …<br>远程执行ssh ruozedata001 “which java” </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;which java&quot;</span><br><span class="line">which: no java in (&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;usr&#x2F;bin)</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;echo $JAVA_HOME&quot;</span><br><span class="line">&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;echo $PATH&quot;</span><br><span class="line">&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;bin:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;hadoop&#x2F;sbin:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin:&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;bin:&#x2F;bin:&#x2F;usr&#x2F;bin:&#x2F;usr&#x2F;local&#x2F;sbin:&#x2F;usr&#x2F;sbin</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ </span><br><span class="line">只执行which Java</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ which java</span><br><span class="line">&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java</span><br></pre></td></tr></table></figure>
+<p>3.7找到 zkEnv.sh<br>一般写shell脚本时，一般会把公共的配置的脚本抽离出来单独写一个.sh的文件<br>可以定位到zkEnv.sh的一个shell脚本<br>目的是看启动的时候，Java它的赋值在哪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [ -e &quot;$ZOOBIN&#x2F;..&#x2F;libexec&#x2F;zkEnv.sh&quot; ]; then</span><br><span class="line">  . &quot;$ZOOBINDIR&#x2F;..&#x2F;libexec&#x2F;zkEnv.sh&quot;</span><br><span class="line">else</span><br><span class="line">  . &quot;$ZOOBINDIR&#x2F;zkEnv.sh&quot;           .表示执行这个shell脚本</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 bin]$ vi zkEnv.sh</span><br><span class="line">if [ &quot;$JAVA_HOME&quot; !&#x3D; &quot;&quot; ]; then</span><br><span class="line">  JAVA&#x3D;&quot;$JAVA_HOME&#x2F;bin&#x2F;java&quot;</span><br><span class="line">else</span><br><span class="line">  JAVA&#x3D;java</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+<p>3.8检查 $JAVA_HOME</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;--------ruoze: $JAVA_HOME----------&quot;</span><br><span class="line">if [ &quot;$JAVA_HOME&quot; !&#x3D; &quot;&quot; ]; then</span><br><span class="line">  JAVA&#x3D;&quot;$JAVA_HOME&#x2F;bin&#x2F;java&quot;</span><br><span class="line">else</span><br><span class="line">  JAVA&#x3D;java</span><br><span class="line">fi</span><br><span class="line">尝试执行启动</span><br><span class="line">有打印结果说明JAVA_HOME它的值拿的是空的，那么JAVA赋的值是Java，在shell脚本执行的时候</span><br><span class="line">不能找到Java真正执行的命令在哪里</span><br></pre></td></tr></table></figure>
+
+<p>3.8.1 写死路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if [ &quot;$JAVA_HOME&quot; !&#x3D; &quot;&quot; ]; then</span><br><span class="line">  JAVA&#x3D;&quot;$JAVA_HOME&#x2F;bin&#x2F;java&quot;</span><br><span class="line">else</span><br><span class="line">  JAVA&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">启动成功</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;$ZOOKEEPER_HOME&#x2F;bin&#x2F;zkServer.sh start&quot;</span><br><span class="line">JMX enabled by default</span><br><span class="line">-------------------ruoze: ------</span><br><span class="line">Using config: &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf&#x2F;zoo.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ps -ef|grep zookeeper</span><br><span class="line">hadoop    5190     1  1 18:32 ?        00:00:00 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java -Dzookeeper.log.dir&#x3D;. -Dzookeeper.root.logger&#x3D;INFO,CONSOLE -cp &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;build&#x2F;classes:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;build&#x2F;lib&#x2F;*.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;slf4j-log4j12-1.6.1.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;slf4j-api-1.6.1.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;netty-3.7.0.Final.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;log4j-1.2.16.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;jline-0.9.94.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;zookeeper-3.4.6.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;src&#x2F;java&#x2F;lib&#x2F;*.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only&#x3D;false org.apache.zookeeper.server.quorum.QuorumPeerMain &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf&#x2F;zoo.cfg</span><br><span class="line">hadoop    5211  2711  0 18:33 pts&#x2F;0    00:00:00 grep --color&#x3D;auto zookeeper</span><br></pre></td></tr></table></figure>
+<p>3.8.2 ssh执行远程命令和脚本<br>bash模式: 加载环境变量配置文件: 个人.bashrc<br>全局 /etc/profile<br>个人 ~/.bash_profile  .bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 hadoop]$ vi ~&#x2F;.bashrc</span><br><span class="line">环境变量配置添加</span><br><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45</span><br><span class="line">export PATH&#x3D;$JAVA_HOME&#x2F;bin:$PATH</span><br><span class="line"></span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;which java&quot;</span><br><span class="line">&#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java</span><br><span class="line">[hadoop@ruozedata001 hadoop]$</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">启动成功</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ kill -9 5190</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ssh ruozedata001 &quot;$ZOOKEEPER_HOME&#x2F;bin&#x2F;zkServer.sh start&quot;</span><br><span class="line">JMX enabled by default</span><br><span class="line">-------------------ruoze: &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45------</span><br><span class="line">Using config: &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf&#x2F;zoo.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ ps -ef|grep zookeeper</span><br><span class="line">hadoop    5368     1  2 18:42 ?        00:00:00 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;java -Dzookeeper.log.dir&#x3D;. -Dzookeeper.root.logger&#x3D;INFO,CONSOLE -cp &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;build&#x2F;classes:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;build&#x2F;lib&#x2F;*.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;slf4j-log4j12-1.6.1.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;slf4j-api-1.6.1.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;netty-3.7.0.Final.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;log4j-1.2.16.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;lib&#x2F;jline-0.9.94.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;zookeeper-3.4.6.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;src&#x2F;java&#x2F;lib&#x2F;*.jar:&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf: -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.local.only&#x3D;false org.apache.zookeeper.server.quorum.QuorumPeerMain &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;zookeeper&#x2F;bin&#x2F;..&#x2F;conf&#x2F;zoo.cfg</span><br><span class="line">hadoop    5389  2711  0 18:43 pts&#x2F;0    00:00:00 grep --color&#x3D;auto zookeeper</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@ruozedata001 ~]$ scp .bashrc ruozedata002:&#x2F;home&#x2F;hadoop&#x2F;</span><br><span class="line">.bashrc                                                                        100%  307     0.3KB&#x2F;s   00:00    </span><br><span class="line">[hadoop@ruozedata001 ~]$ scp .bashrc ruozedata003:&#x2F;home&#x2F;hadoop&#x2F;</span><br><span class="line">.bashrc                                                                        100%  307     0.3KB&#x2F;s   00:00    </span><br><span class="line">[hadoop@ruozedata001 ~]$ cd script&#x2F;hodoop&#x2F;</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;stop_cluster.sh</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;start_cluster.sh</span><br><span class="line">[hadoop@ruozedata001 hadoop]$ .&#x2F;jps.sh</span><br><span class="line">+ echo &#39;----------ruozedata001 process------------&#39;</span><br><span class="line">----------ruozedata001 process------------</span><br><span class="line">+ ssh ruozedata001 &#x2F;usr&#x2F;java&#x2F;jdk1.8.0_45&#x2F;bin&#x2F;jps</span><br><span class="line">7249 JobHistoryServer</span><br><span class="line">6707 DFSZKFailoverController</span><br><span class="line">6899 NodeManager</span><br><span class="line">6231 NameNode</span><br><span class="line">6088 QuorumPeerMain</span><br><span class="line">6793 ResourceManager</span><br><span class="line">7322 Jps</span><br><span class="line">6334 DataNode</span><br><span class="line">6527 JournalNode</span><br></pre></td></tr></table></figure>
+<p>全部启动成功</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Shell/" rel="tag">Shell</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Spark的分布式数据集RDD</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/shell%E5%91%BD%E4%BB%A4%E5%8F%8A%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/">
+                <span class="level-item">Shell命令及脚本编写</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="zzztime">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        zzztime
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        oxygen
+                    </p>
+                    
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            43
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Hive/">
+            <span class="level-start">
+                <span class="level-item">Hive</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MapReduce/">
+            <span class="level-start">
+                <span class="level-item">MapReduce</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MySQL/">
+            <span class="level-start">
+                <span class="level-item">MySQL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Shell/">
+            <span class="level-start">
+                <span class="level-item">Shell</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+            <span class="level-start">
+                <span class="level-item">云服务器</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    zzztime
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 shell脚本同步集群配置以及zk未启动的排查方法&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

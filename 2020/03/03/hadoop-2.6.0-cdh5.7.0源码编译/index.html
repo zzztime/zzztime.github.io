@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>hadoop-2.6.0-cdh5.7.0源码编译 - zzztime</title>
+
+
+    <meta name="description" content="title：hadoop-2.6.0-cdh5.7.0源码编译一、说明直接使用的hadoop-2.6.0-cdh5.7.0.tar.gz包部署的hadoop集群不支持文件压缩，生产上是不可接受的，故需要将hadoop源码下载重新编译支持压缩 二、编译hadoop支持压缩 1、编译流程：下载软件——&gt;安装必要依赖库——&gt;添加用户并创建文件夹上传软件——&gt;安装JDK并添加环境变量—">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hadoop-2.6.0-cdh5.7.0源码编译">
+<meta property="og:url" content="http://yoursite.com/2020/03/03/hadoop-2.6.0-cdh5.7.0%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/index.html">
+<meta property="og:site_name" content="zzztime">
+<meta property="og:description" content="title：hadoop-2.6.0-cdh5.7.0源码编译一、说明直接使用的hadoop-2.6.0-cdh5.7.0.tar.gz包部署的hadoop集群不支持文件压缩，生产上是不可接受的，故需要将hadoop源码下载重新编译支持压缩 二、编译hadoop支持压缩 1、编译流程：下载软件——&gt;安装必要依赖库——&gt;添加用户并创建文件夹上传软件——&gt;安装JDK并添加环境变量—">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/og_image.png">
+<meta property="article:published_time" content="2020-03-03T06:09:21.799Z">
+<meta property="article:modified_time" content="2020-03-03T15:01:42.056Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                zzztime
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">主页</a>
+                
+                <a class="navbar-item"
+                href="/archives">归档</a>
+                
+                <a class="navbar-item"
+                href="/categories">分类</a>
+                
+                <a class="navbar-item"
+                href="/tags">标签</a>
+                
+                <a class="navbar-item"
+                href="/about">关于</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:09:21.799Z">2020-03-03</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1717 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                hadoop-2.6.0-cdh5.7.0源码编译
+            
+        </h1>
+        <div class="content">
+            <hr>
+<h2 id="title：hadoop-2-6-0-cdh5-7-0源码编译"><a href="#title：hadoop-2-6-0-cdh5-7-0源码编译" class="headerlink" title="title：hadoop-2.6.0-cdh5.7.0源码编译"></a>title：hadoop-2.6.0-cdh5.7.0源码编译</h2><p>一、说明<br>直接使用的hadoop-2.6.0-cdh5.7.0.tar.gz包部署的hadoop集群不支持文件压缩，生产上是不可接受的，故需要将hadoop源码下载重新编译支持压缩</p>
+<p>二、编译hadoop支持压缩</p>
+<p>1、编译流程：<br>下载软件——&gt;安装必要依赖库——&gt;添加用户并创建文件夹上传软件——&gt;安装JDK并添加环境变量——&gt;安装maven并配置和添加环境变量——&gt;安装protobuf并添加环境变量和编译——&gt;编译hadoop支持压缩</p>
+<a id="more"></a>
+<p>2、步骤解读：</p>
+<p>（1）软件下载</p>
+<table>
+<thead>
+<tr>
+<th>组件版本</th>
+<th>百度网盘链接</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hadoop-2.6.0-cdh5.7.0-src.tar.gz</td>
+<td><a href="https://pan.baidu.com/s/1uRMGIhLSL9QHT-Ee4F16jw">https://pan.baidu.com/s/1uRMGIhLSL9QHT-Ee4F16jw</a> 提取码：jb1d</td>
+</tr>
+<tr>
+<td>jdk-7u80-linux-x64.tar.gz</td>
+<td><a href="https://pan.baidu.com/s/1xSCQ8rjABVI-zDFQS5nCPA">https://pan.baidu.com/s/1xSCQ8rjABVI-zDFQS5nCPA</a> 提取码：lfze</td>
+</tr>
+<tr>
+<td>apache-maven-3.3.9-bin.tar.gz</td>
+<td><a href="https://pan.baidu.com/s/1ddkdkLW7r7ahFZmgACGkVw">https://pan.baidu.com/s/1ddkdkLW7r7ahFZmgACGkVw</a> 提取码：fdfz</td>
+</tr>
+<tr>
+<td>protobuf-2.5.0.tar.gz</td>
+<td><a href="https://pan.baidu.com/s/1RSNZGd_ThwknMB3vDkEfhQ">https://pan.baidu.com/s/1RSNZGd_ThwknMB3vDkEfhQ</a> 提取码：hvc2</td>
+</tr>
+</tbody></table>
+<p>注：编译的JDK版本必须是1.7，1.8的JDK会导致编译失败</p>
+<p>（2）安转必要依赖库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# yum install -y svn ncurses-devel</span><br><span class="line">[root@hadoop001 ~]# yum install -y gcc gcc-c++ make cmake</span><br><span class="line">[root@hadoop001 ~]# yum install -y openssl openssl-devel svn ncurses-devel zlib-devel libtool</span><br><span class="line">[root@hadoop001 ~]# yum install -y snappy snappy-devel bzip2 bzip2-devel lzo lzo-devel lzop autoconf automake cmake</span><br></pre></td></tr></table></figure>
+<p>(3)添加用户并创建文件夹上传软件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# yum install -y lrzsz</span><br><span class="line">[root@hadoop001 ~]# useradd hadoop</span><br><span class="line">[root@hadoop001 ~]# su - hadoop</span><br><span class="line">[hadoop@hadoop001 ~]$ mkdir app soft source lib data maven_repo shell mysql</span><br><span class="line">[hadoop@hadoop001 ~]$ cd soft&#x2F;</span><br><span class="line">[hadoop@hadoop001 soft]$ rz</span><br><span class="line">上传后 ll 查看一下是否有误</span><br><span class="line">[hadoop@hadoop001 soft]$ ll</span><br><span class="line">total 202192</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop   8491533 Apr  7 11:25 apache-maven-3.3.9-bin.tar.gz</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop  42610549 Apr  6 16:55 hadoop-2.6.0-cdh5.7.0-src.tar.gz</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop 153530841 Apr  7 11:12 jdk-7u80-linux-x64.tar.gz</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop   2401901 Apr  7 11:31 protobuf-2.5.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>（4）安装JDK并添加环境变量</p>
+<p>解压并将文件放在/usr/java目录,修改拥有者为root</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">创建&#x2F;usr&#x2F;java&#x2F;目录，修改chown权限为root</span><br><span class="line">[root@hadoop001 ~]# mkdir &#x2F;usr&#x2F;java&#x2F;</span><br><span class="line">[root@hadoop001 ~]# tar -zxvf &#x2F;home&#x2F;hadoop&#x2F;soft&#x2F;jdk-7u80-linux-x64.tar.gz -C &#x2F;usr&#x2F;java</span><br><span class="line">[root@hadoop001 ~]# cd  &#x2F;usr&#x2F;java&#x2F;</span><br><span class="line">[root@hadoop001 java]# chown -R  root:root jdk1.7.0_80</span><br><span class="line"></span><br><span class="line">配置&#x2F;etc&#x2F;profile环境变量</span><br><span class="line">[root@hadoop001 jdk1.7.0_80]# vi &#x2F;etc&#x2F;profile </span><br><span class="line">添加如下两行环境变量</span><br><span class="line">export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;jdk1.7.0_80</span><br><span class="line">export PATH&#x3D;$JAVA_HOME&#x2F;bin&#x2F;:$PATH</span><br><span class="line">[root@hadoop001 java]# source &#x2F;etc&#x2F;profile</span><br><span class="line"></span><br><span class="line">测试java是否安装成功</span><br><span class="line">[root@hadoop001 jdk1.7.0_80]# java -version </span><br><span class="line">java version &quot;1.7.0_80&quot; </span><br><span class="line">Java(TM) SE Runtime Environment (build 1.7.0_80-b15) </span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 24.80-b11, mixed mode)</span><br></pre></td></tr></table></figure>
+<p>（5）安装maven并配置和添加环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@hadoop001 ~]# su - hadoop</span><br><span class="line">[hadoop@hadoop001 ~]$ tar -zxvf ~&#x2F;soft&#x2F;apache-maven-3.3.9-bin.tar.gz -C ~&#x2F;app&#x2F;</span><br><span class="line"></span><br><span class="line">修改haoop用户的环境变量</span><br><span class="line">[hadoop@hadoop001 ~]$ vi ~&#x2F;.bash_profile</span><br><span class="line">添加或修改如下内容，注意MAVEN_OPTS设置了maven运行的内存，防止内存太小导致编译失败</span><br><span class="line">export MAVEN_HOME&#x3D;&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;apache-maven-3.3.9</span><br><span class="line">export MAVEN_OPTS&#x3D;&quot;-Xms1024m -Xmx1024m&quot;</span><br><span class="line">export PATH&#x3D;$MAVEN_HOME&#x2F;bin:$PATH</span><br><span class="line">[hadoop@hadoop001 ~]$ source ~&#x2F;.bash_profile</span><br><span class="line"></span><br><span class="line">[hadoop@hadoop001 ~]$ which mvn</span><br><span class="line">~&#x2F;app&#x2F;apache-maven-3.3.9&#x2F;bin&#x2F;mvn</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ vi ~&#x2F;app&#x2F;apache-maven-3.3.9&#x2F;conf&#x2F;settings.xml</span><br><span class="line">配置maven的本地仓库位置</span><br><span class="line">注意：本地仓库位置不要放错</span><br><span class="line">&lt;localRepository&gt;&#x2F;home&#x2F;hadoop&#x2F;maven_repo&#x2F;repo&lt;&#x2F;localRepository&gt;</span><br><span class="line"></span><br><span class="line">添加阿里云中央仓库地址</span><br><span class="line"></span><br><span class="line">注意一定要写在&lt;mirrors&gt;&lt;&#x2F;mirrors&gt;之间</span><br><span class="line"></span><br><span class="line">&lt;mirror&gt;</span><br><span class="line">     &lt;id&gt;nexus-aliyun&lt;&#x2F;id&gt;</span><br><span class="line">     &lt;mirrorOf&gt;central&lt;&#x2F;mirrorOf&gt;</span><br><span class="line">     &lt;name&gt;Nexus aliyun&lt;&#x2F;name&gt;</span><br><span class="line">     &lt;url&gt;http:&#x2F;&#x2F;maven.aliyun.com&#x2F;nexus&#x2F;content&#x2F;groups&#x2F;public&lt;&#x2F;url&gt;</span><br><span class="line">&lt;&#x2F;mirror&gt;</span><br></pre></td></tr></table></figure>
+<p>通常依赖的jar包下载不齐全，可将repo文件上传</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#jar包链接</span><br><span class="line">链接：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1vq4iVFqqyJNkYzg90bVrfg </span><br><span class="line">提取码：vugv </span><br><span class="line">复制这段内容后打开百度网盘手机App，操作更方便哦</span><br><span class="line">#下载后 rz上传解压，注意目录层次</span><br><span class="line">[hadoop@hadoop001 maven_repo]$ rz</span><br><span class="line">[hadoop@hadoop001 maven_repo]$ tar -zxvf repo.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>（6）安装protobuf并添加环境变量和编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 ~]$ tar -zxvf ~&#x2F;soft&#x2F;protobuf-2.5.0.tar.gz -C ~&#x2F;app&#x2F;</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ cd ~&#x2F;app&#x2F;protobuf-2.5.0&#x2F;</span><br><span class="line">  --prefix&#x3D; 是用来待会编译好的包放在为路径</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ .&#x2F;configure  --prefix&#x3D;&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;protobuf-2.5.0</span><br><span class="line"></span><br><span class="line">编译以及安装</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ make</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ make install</span><br><span class="line"></span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ vim ~&#x2F;.bash_profile</span><br><span class="line">追加如下两行内容，未编译前是没有bin目录的</span><br><span class="line">export PROTOBUF_HOME&#x3D;&#x2F;home&#x2F;hadoop&#x2F;app&#x2F;protobuf-2.5.0</span><br><span class="line">export PATH&#x3D;$PROTOBUF_HOME&#x2F;bin:$PATH</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ source ~&#x2F;.bash_profile </span><br><span class="line"></span><br><span class="line">测试是否生效，若出现libprotoc 2.5.0则为生效</span><br><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ protoc --version</span><br><span class="line">libprotoc 2.5.0</span><br></pre></td></tr></table></figure>
+<p>（7）编译hadoop支持压缩</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop001 protobuf-2.5.0]$ tar -zxvf ~&#x2F;soft&#x2F;hadoop-2.6.0-cdh5.7.0-src.tar.gz -C ~&#x2F;source&#x2F;</span><br><span class="line">#进入hadoop的源码目录</span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ cd ~&#x2F;source&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;</span><br><span class="line">#进行编译</span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ mvn clean package -Pdist,native -DskipTests -Dtar</span><br></pre></td></tr></table></figure>
+<p>查看编译后的包：hadoop-2.6.0-cdh5.7.0.tar.gz</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#有 BUILD SUCCESS 信息则表示编译成功</span><br><span class="line">[INFO] Apache Hadoop Scheduler Load Simulator ............. SUCCESS [ 13.592 s]</span><br><span class="line">[INFO] Apache Hadoop Tools Dist ........................... SUCCESS [ 12.042 s]</span><br><span class="line">[INFO] Apache Hadoop Tools ................................ SUCCESS [  0.094 s]</span><br><span class="line">[INFO] Apache Hadoop Distribution ......................... SUCCESS [01:49 min]</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] BUILD SUCCESS</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] Total time: 37:39 min</span><br><span class="line">[INFO] Finished at: 2019-04-07T16:48:42+08:00</span><br><span class="line">[INFO] Final Memory: 200M&#x2F;989M</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ </span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ </span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ </span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ </span><br><span class="line">[hadoop@hadoop001 hadoop-2.6.0-cdh5.7.0]$ ll &#x2F;home&#x2F;hadoop&#x2F;source&#x2F;hadoop-2.6.0-cdh5.7.0&#x2F;hadoop-dist&#x2F;target&#x2F;</span><br><span class="line">total 564036</span><br><span class="line">drwxrwxr-x. 2 hadoop hadoop      4096 Apr  7 16:46 antrun</span><br><span class="line">drwxrwxr-x. 3 hadoop hadoop      4096 Apr  7 16:46 classes</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop      1998 Apr  7 16:46 dist-layout-stitching.sh</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop       690 Apr  7 16:47 dist-tar-stitching.sh</span><br><span class="line">drwxrwxr-x. 9 hadoop hadoop      4096 Apr  7 16:47 hadoop-2.6.0-cdh5.7.0</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop 191880143 Apr  7 16:47 hadoop-2.6.0-cdh5.7.0.tar.gz</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop      7314 Apr  7 16:47 hadoop-dist-2.6.0-cdh5.7.0.jar</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop 385618309 Apr  7 16:48 hadoop-dist-2.6.0-cdh5.7.0-javadoc.jar</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop      4855 Apr  7 16:47 hadoop-dist-2.6.0-cdh5.7.0-sources.jar</span><br><span class="line">-rw-rw-r--. 1 hadoop hadoop      4855 Apr  7 16:47 hadoop-dist-2.6.0-cdh5.7.0-test-sources.jar</span><br><span class="line">drwxrwxr-x. 2 hadoop hadoop      4096 Apr  7 16:47 javadoc-bundle-options</span><br><span class="line">drwxrwxr-x. 2 hadoop hadoop      4096 Apr  7 16:47 maven-archiver</span><br><span class="line">drwxrwxr-x. 3 hadoop hadoop      4096 Apr  7 16:46 maven-shared-archive-resources</span><br><span class="line">drwxrwxr-x. 3 hadoop hadoop      4096 Apr  7 16:46 test-classes</span><br><span class="line">drwxrwxr-x. 2 hadoop hadoop      4096 Apr  7 16:46 test-dir</span><br></pre></td></tr></table></figure>
+
+<p>三、举例说明编译错误以及处理方式</p>
+<p>（1）第一种情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[WARNING] Unrecognised tag: &#39;mirror&#39; (position: START_TAG seen ...&lt;&#x2F;mirrors&gt;\n&lt;mirror&gt;... @163:9)  @ &#x2F;home&#x2F;hadoop&#x2F;app&#x2F;apache-maven-3.3.9&#x2F;conf&#x2F;settings.xml, line 163, column 9</span><br></pre></td></tr></table></figure>
+<p>原因：maven配置错误，未将阿里云中央仓库地址写在 &lt; mirrors&gt; &lt; /mirrors &gt; 之间</p>
+<p>（2）第二种情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[FATAL] Non-resolvable parent POM for org.apache.hadoop:hadoop-main:2.6.0-cdh5.7.0: Could not transfer artifact com.cloudera.cdh:cdh-root:pom:5.7.0 from&#x2F;to cdh.repo (https:&#x2F;&#x2F;repository.cloudera.com&#x2F;artifactory&#x2F;cloudera-repos): Remote host closed connectio</span><br><span class="line">#分析：是https:&#x2F;&#x2F;repository.cloudera.com&#x2F;artifactory&#x2F;cloudera-repos&#x2F;com&#x2F;cloudera&#x2F;cdh&#x2F;cdh-root&#x2F;5.7.0&#x2F;cdh-root-5.7.0.pom文件下载不了</span><br><span class="line">#解决方案：前往本地仓库到目标文件目录，然后 通过wget 文件，来成功获取该文件，重新执行编译命令，或者执行4.5的可选步骤，将需要的jar直接放到本地仓库</span><br></pre></td></tr></table></figure>
+
+
+<p>文件cdh-root-5.7.0.pom未下载下来，解决方式将该文件手动下载上传，<br>pom文件位置（com.cloudera.cdh:cdh-root:pom:5.7.0），打开这个网址<a href="https://repository.cloudera.com/artifactory/cloudera-repos/找到对应的pom文件下载后放在maven仓库的文件夹">https://repository.cloudera.com/artifactory/cloudera-repos/找到对应的pom文件下载后放在maven仓库的文件夹</a><br>maven仓库的文件夹位置：在/home/hadoop/maven_repo/repo目录下查看对应的是缺少哪个目录下的pom和jar包文件<br>重新执行 mvn clean package -Pdist,native -DskipTests -Dtar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">举例说明pom文件位置</span><br><span class="line">[hadoop@hadoop001 1.7.6-cdh5.7.0]$ pwd</span><br><span class="line">&#x2F;home&#x2F;hadoop&#x2F;maven_repo&#x2F;repo&#x2F;org&#x2F;apache&#x2F;avro&#x2F;avro-compiler&#x2F;1.7.6-cdh5.7.0</span><br><span class="line">[hadoop@hadoop001 1.7.6-cdh5.7.0]$ ll</span><br><span class="line">total 152</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop 77422 Dec  2  2018 avro-compiler-1.7.6-cdh5.7.0.jar</span><br><span class="line">-rw-r--r--. 1 hadoop hadoop  4690 Dec  2  2018 avro-compiler-1.7.6-cdh5.7.0.pom</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdnimg.cn/20190801005836348.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/03/03/HDFS%E5%B0%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%8D%B1%E5%AE%B3/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">HDFS小文件的危害</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/03/03/HIVE%E7%9A%84%E5%86%85%E9%83%A8%E8%A1%A8%E8%B7%9F%E5%A4%96%E9%83%A8%E8%A1%A8/">
+                <span class="level-item">Hive的内部表和外部表</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="zzztime">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        zzztime
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        oxygen
+                    </p>
+                    
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            43
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            9
+                        </p>
+                    </a>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            11
+                        </p>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/ppoffice" target="_blank" rel="noopener">
+                关注我</a>
+        </div>
+        
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="https://github.com/ppoffice">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Facebook" href="https://facebook.com">
+                
+                <i class="fab fa-facebook"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Twitter" href="https://twitter.com">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Dribbble" href="https://dribbble.com">
+                
+                <i class="fab fa-dribbble"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="RSS" href="/">
+                
+                <i class="fas fa-rss"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">Hexo</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">hexo.io</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/ppoffice" target="_blank" rel="noopener">
+                    <span class="level-left">
+                        <span class="level-item">PPOffice</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Hive/">
+            <span class="level-start">
+                <span class="level-item">Hive</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MapReduce/">
+            <span class="level-start">
+                <span class="level-item">MapReduce</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MySQL/">
+            <span class="level-start">
+                <span class="level-item">MySQL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Shell/">
+            <span class="level-start">
+                <span class="level-item">Shell</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+            <span class="level-start">
+                <span class="level-item">云服务器</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+    </div>
+</div>
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">41</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    zzztime
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 hadoop-2.6.0-cdh5.7.0源码编译&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://yoursite.com',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -132,13 +132,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T05:55:19.176Z">2020-03-03</time>
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 892 个字)
+                    4 分钟 读完 (大约 630 个字)
                 </span>
                 
                 
@@ -147,21 +151,19 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/">MySQL语法01</a>
+                <a class="has-link-black-ter" href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/">Yarn资源调优参数及案例</a>
             
         </h1>
         <div class="content">
-            <p>1、创建数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#创建数据库 ruozedata</span><br><span class="line">create database ruozedata;</span><br></pre></td></tr></table></figure>
-<p>2、创建用户并刷新用户权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant all privileges on ruozedata.* to ruoze@&#39;%&#39; identified by &#39;123456&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+            <p>1.yarn内存调优</p>
+<p>说明：yarn主件的nodemanager进程管理的resource的memory资源<br>可以分配给容器的物理内存(以MB为单位)。如果设置为-1，并yarn.nodemanager.resource.detect-hardware- capability为真，则自动计算(在Windows和Linux中)。在其他情况下，默认值是8192MB。<br>yarn.nodemanager.resource.memory-mb<br>yarn.scheduler.minimum-allocation-mb 分配的最小内存大小默认为1024MB<br>yarn.scheduler.maximum-allocation-mb 分配的最大内存大小默认为8192MB</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/MySQL%E8%AF%AD%E6%B3%9501/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -184,13 +186,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:40.639Z">2020-03-03</time>
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:04:11.130Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/MapReduce/">MapReduce</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1686 个字)
+                    41 分钟 读完 (大约 6167 个字)
                 </span>
                 
                 
@@ -199,20 +205,23 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/">MySQL部署</a>
+                <a class="has-link-black-ter" href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/">MapReduce的工作原理图文详解</a>
             
         </h1>
         <div class="content">
-            <p>MySQL部署流程：<br>通过rpm包或tar包部署<br>企业里一般是通过tar包部署，可进行定制化</p>
-<p>一、rpm包部署：<br>一般机器上面都有mysql - libs包，不可无故卸载libs包，可能会导致其他依赖性服务不正常<br>rpm -e mysql-libs-5.1.73-8.el6_8.x86_64 是可卸载rpm libs包，卸载的时候会告诉一个依赖，则使用rpm -e –nodeps进行卸载</p>
-<p>安装流程：<br> 1、yum search mysql 搜索MySQL文件<br> 2、yum install -y mysql -server.x86_64安装server包<br> 3、yum install -y mysql -server .x86_64  mysql .x86_64 同时安装client包<br> 4、yum install -y mysql-libs-5.1.73-8.el6_8.x86_64安装libs<br> 5、service mysqld start 进行启动校验<br> 6、mysql 如果出现提示，不能连接本地的MySQL服务通过socket ‘/tmp/mysql .sock’(2)<br>先查看后台进程  ps -ef|grep mysql ，会发现后台进行的进程是在–socket=/var/lib/mysql/mysql .sock下面，在命令后面加上连接指向mysql –socket=/var/lib/mysql/mysql .sock ，就可以登录到mysql</p>
+            <p>开始聊mapreduce，mapreduce是hadoop的计算框架，我学hadoop是从hive开始入手，再到hdfs，当我学习hdfs时候，就感觉到hdfs和mapreduce关系的紧密。这个可能是我做技术研究的思路有关，我开始学习某一套技术总是想着这套技术到底能干什么，只有当我真正理解了这套技术解决了什么问题时候，我后续的学习就能逐步的加快，而学习hdfs时候我就发现，要理解hadoop框架的意义，hdfs和mapreduce是密不可分，所以当我写分布式文件系统时候，总是感觉自己的理解肤浅，今天我开始写mapreduce了，今天写文章时候比上周要进步多，不过到底能不能写好本文了，只有试试再说了。</p>
+<p>　　Mapreduce初析</p>
+<p>　　Mapreduce是一个计算框架，既然是做计算的框架，那么表现形式就是有个输入（input），mapreduce操作这个输入（input），通过本身定义好的计算模型，得到一个输出（output），这个输出就是我们所需要的结果。</p>
+<p>　　我们要学习的就是这个计算模型的运行规则。在运行一个mapreduce计算任务时候，任务过程被分为两个阶段：map阶段和reduce阶段，每个阶段都是用键值对（key/value）作为输入（input）和输出（output）。而程序员要做的就是定义好这两个阶段的函数：map函数和reduce函数。</p>
+<p>　　Mapreduce的基础实例</p>
+<p>　　讲解mapreduce运行原理前，首先我们看看mapreduce里的hello world实例WordCount,这个实例在任何一个版本的hadoop安装程序里都会有，大家很容易找到，这里我还是贴出代码，便于我后面的讲解，代码如下：</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/MySQL%E9%83%A8%E7%BD%B2/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -235,13 +244,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:27.601Z">2020-03-03</time>
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:03:35.990Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 574 个字)
+                    5 分钟 读完 (大约 708 个字)
                 </span>
                 
                 
@@ -250,21 +263,19 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/Hadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/">Hadoop伪分布式部署</a>
+                <a class="has-link-black-ter" href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">Yarn和MapReduce的内存优化配置详解</a>
             
         </h1>
         <div class="content">
-            <p>一、使用软件</p>
-<p>   Hadoop版本:hadoop-2.6.0-cdh5.7.0<br>    JDK版本：jdk-8u45-linux-x64<br>    Linux安装ssh服务</p>
-<p>二、官方链接</p>
-<p> CDH(<a href="http://www.cloudera.com">www.cloudera.com</a>)<br> <a href="http://archive.cloudera.com/cdh5/cdh/5/">http://archive.cloudera.com/cdh5/cdh/5/</a><br> <a href="http://www.apache.org/">http://www.apache.org/</a><br> <a href="http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.16.2-changes.log">http://archive.cloudera.com/cdh5/cdh/5/hadoop-2.6.0-cdh5.16.2-changes.log</a><br>#慎用CDH5.11.0 </p>
+            <p>在Hadoop2.x中, YARN负责管理MapReduce中的资源(内存, CPU等)并且将其打包成Container。<br>使之专注于其擅长的数据处理任务, 将无需考虑资源调度. 如下图所示    </p>
+<p>YARN会管理集群中所有机器的可用计算资源. 基于这些资源YARN会调度应用(比如MapReduce)发来的资源请求, 然后YARN会通过分配Co<br>ntainer来给每个应用提供处理能力, Container是YARN中处理能力的基本单元, 是对内存, CPU等的封装. </p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/Hadoop%E4%BC%AA%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -287,13 +298,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T05:54:02.687Z">2020-03-03</time>
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:02:30.200Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    2 分钟 读完 (大约 232 个字)
+                    2 分钟 读完 (大约 300 个字)
                 </span>
                 
                 
@@ -302,19 +317,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/">登录MySQL时出现Access denied的错误提示</a>
+                <a class="has-link-black-ter" href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">YARN架构设计</a>
             
         </h1>
         <div class="content">
-            <p>适用于忘记密码时，跳过权限认证<br>一.安装好mysql后，登录时提示Access denied</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hadoop001:mysqladmin:&#x2F;usr&#x2F;local&#x2F;mysql:&gt;mysql -uroot -p</span><br><span class="line">Enter password: </span><br><span class="line">ERROR 1045 (28000): Access denied for user &#39;root&#39;@&#39;localhost&#39; (using password: NO)</span><br></pre></td></tr></table></figure>
+            <p>yarn的工作流程<br><img src="https://img-blog.csdnimg.cn/20190712213108690.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"> </p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/%E7%99%BB%E5%BD%95MySQL%E6%97%B6%E5%87%BA%E7%8E%B0Access%20denied%E7%9A%84%E9%94%99%E8%AF%AF%E6%8F%90%E7%A4%BA/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -337,13 +351,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-02T14:45:38.291Z">2020-03-02</time>
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:02:12.800Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 456 个字)
+                    15 分钟 读完 (大约 2181 个字)
                 </span>
                 
                 
@@ -352,19 +370,20 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/">进程PID与端口号PORT</a>
+                <a class="has-link-black-ter" href="/2020/03/03/YARN%E7%9A%84Memory%E5%92%8CCPU%E8%B0%83%E4%BC%98%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">YARN的Memory和CPU调优配置详解</a>
             
         </h1>
         <div class="content">
-            <p>一个进程有很多个端口号（对内），只有一个端口号（对外）</p>
-<p>1、关于进程pid<br>进程管理会用到的命令<br>|命令| 含义 |<br>|–|–|<br>| ps -ef |查看系统中的进程  |<br>| grep  | 将后台进程中指定的文件过滤出来 |<br>|grep -v|过滤排除|<br>| kill -9 pid | 杀死进程 |<br>|kill -9 $(pgrep -f tail)| 杀死关于tail命令的所有进程 |</p>
+            <p> Hadoop YARN同时支持内存和CPU两种资源的调度，本文介绍如何配置YARN对内存和CPU的使用。</p>
+<p>YARN作为一个资源调度器，应该考虑到集群里面每一台机子的计算资源，然后根据application申请的资源进行分配Container。Container是YARN里面资源分配的基本单位，具有一定的内存以及CPU资源。</p>
+<p>在YARN集群中，平衡内存、CPU、磁盘的资源的很重要的，根据经验，每两个container使用一块磁盘以及一个CPU核的时候可以使集群的资源得到一个比较好的利用。<br>内存配置</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/02/%E8%BF%9B%E7%A8%8BPID%E4%B8%8E%E7%AB%AF%E5%8F%A3%E5%8F%B7PORT/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/YARN%E7%9A%84Memory%E5%92%8CCPU%E8%B0%83%E4%BC%98%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -402,7 +421,9 @@
             
             <li><a class="pagination-link has-text-black-ter" href="/page/5/">5</a></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/6/">6</a></li>
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
+            
+            <li><a class="pagination-link has-text-black-ter" href="/page/9/">9</a></li>
             
         </ul>
     </nav>
@@ -447,7 +468,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            27
+                            43
                         </p>
                     </a>
                 </div>
@@ -459,7 +480,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            0
+                            9
                         </p>
                     </a>
                 </div>
@@ -471,7 +492,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            0
+                            11
                         </p>
                     </a>
                 </div>
@@ -573,13 +594,92 @@
                 分类
             </h3>
             <ul class="menu-list">
-            
+            <li>
+        <a class="level is-marginless" href="/categories/Hadoop/">
+            <span class="level-start">
+                <span class="level-item">Hadoop</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">17</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Hive/">
+            <span class="level-start">
+                <span class="level-item">Hive</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Linux/">
+            <span class="level-start">
+                <span class="level-item">Linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">6</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MapReduce/">
+            <span class="level-start">
+                <span class="level-item">MapReduce</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/MySQL/">
+            <span class="level-start">
+                <span class="level-item">MySQL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Shell/">
+            <span class="level-start">
+                <span class="level-item">Shell</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Spark/">
+            <span class="level-start">
+                <span class="level-item">Spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+            <span class="level-start">
+                <span class="level-item">云服务器</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+            <span class="level-start">
+                <span class="level-item">虚拟机</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li>
             </ul>
         </div>
     </div>
 </div>
     
-        
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+    </div>
+</div>
     
     
         <div class="column-right-shadow is-hidden-widescreen ">
@@ -592,18 +692,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="media-left">
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Wordcount案例的shuffle">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:05:12.744Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Wordcount案例的shuffle</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
                     </p>
                 </div>
             </div>
@@ -611,18 +711,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="media-left">
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn资源调优参数及案例">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn资源调优参数及案例</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -630,18 +730,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="media-left">
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="MapReduce的工作原理图文详解">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:11.130Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MapReduce的工作原理图文详解</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -649,18 +749,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="media-left">
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn和MapReduce的内存优化配置详解">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:03:35.990Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn和MapReduce的内存优化配置详解</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -668,18 +768,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="media-left">
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="YARN架构设计">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:02:30.200Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">YARN架构设计</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
                     </p>
                 </div>
             </div>
@@ -702,7 +802,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">26</span>
+                    <span class="level-item tag">41</span>
                 </span>
             </a>
         </li>
@@ -711,6 +811,17 @@
             <a class="level is-marginless" href="/archives/2020/02/">
                 <span class="level-start">
                     <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -730,6 +841,83 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
                 
             </div>
         </div>
@@ -755,18 +943,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="media-left">
+            <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Wordcount案例的shuffle">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:05:12.744Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Wordcount%E6%A1%88%E4%BE%8B%E7%9A%84shuffle/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Wordcount案例的shuffle</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Hadoop之Unable to load native-hadoop library for your platform...解决办法</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
                     </p>
                 </div>
             </div>
@@ -774,18 +962,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="media-left">
+            <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn资源调优参数及案例">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark排序方式之OrderingOn">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:41.020Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Yarn%E8%B5%84%E6%BA%90%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%E5%8F%8A%E6%A1%88%E4%BE%8B/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn资源调优参数及案例</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:17:33.104Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E6%8E%92%E5%BA%8F%E6%96%B9%E5%BC%8F%E4%B9%8BOrderingOn/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark排序方式之OrderingOn</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -793,18 +981,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="media-left">
+            <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="MapReduce的工作原理图文详解">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark RDD算子">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:04:11.130Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/MapReduce%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">MapReduce的工作原理图文详解</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:55.175Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark RDD算子</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -812,18 +1000,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="media-left">
+            <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Yarn和MapReduce的内存优化配置详解">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Spark的分布式数据集RDD">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:03:35.990Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/Yarn%E5%92%8CMapReduce%E7%9A%84%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Yarn和MapReduce的内存优化配置详解</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:27.615Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/Spark%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%95%B0%E6%8D%AE%E9%9B%86RDD/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark的分布式数据集RDD</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Spark/">Spark</a>
                     </p>
                 </div>
             </div>
@@ -831,18 +1019,18 @@
         
         <article class="media">
             
-            <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="media-left">
+            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="YARN架构设计">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:02:30.200Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/YARN%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="title has-link-black-ter is-size-6 has-text-weight-normal">YARN架构设计</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
+                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
                     </p>
                 </div>
             </div>
@@ -865,7 +1053,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">26</span>
+                    <span class="level-item tag">41</span>
                 </span>
             </a>
         </li>
@@ -874,6 +1062,17 @@
             <a class="level is-marginless" href="/archives/2020/02/">
                 <span class="level-start">
                     <span class="level-item">二月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2017/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2017</span>
                 </span>
                 <span class="level-end">
                     <span class="level-item tag">1</span>
@@ -893,6 +1092,83 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hadoop/">
+                        <span class="tag">Hadoop</span>
+                        <span class="tag is-grey">17</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Hive/">
+                        <span class="tag">Hive</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Linux/">
+                        <span class="tag">Linux</span>
+                        <span class="tag is-grey">6</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MapReduce/">
+                        <span class="tag">MapReduce</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/MySQL/">
+                        <span class="tag">MySQL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Shell/">
+                        <span class="tag">Shell</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Spark/">
+                        <span class="tag">Spark</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/centOS/">
+                        <span class="tag">centOS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tomcat/">
+                        <span class="tag">tomcat</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+                        <span class="tag">虚拟机</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/%E9%83%A8%E7%BD%B2/">
+                        <span class="tag">部署</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
                 
             </div>
         </div>
