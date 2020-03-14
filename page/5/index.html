@@ -142,7 +142,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 767 个字)
+                    9 分钟 读完 (大约 1318 个字)
                 </span>
                 
                 
@@ -151,18 +151,23 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/HDFS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">HDFS常用命令</a>
+                <a class="has-link-black-ter" href="/2020/03/03/HDFS%20HA%E6%9E%B6%E6%9E%84/">HDFS HA架构</a>
             
         </h1>
         <div class="content">
-            <p>一、hdfs常用命令<br>fs,   fs=hdfs=dfs<br>version,查看版本<br>jar<jar>  ,运行一个jar到 yarn上<br>checknative,查看hadoop对于压缩的支持，cloudera提供的cdh默认不支持压缩，得进行源代码编译<br>classpath，hadoop运行的过程中需要加载哪些jar包，<br>假如某一服务的进程无法启动，当 hadoop classpath的时候显示该进程未追加进来，或者额外的自定义的jar、lib包未添加，hadoop classpath会加载一些jar包的路径，第三方的jar包需要额外添加的，将该jar包放在对应的路径。</p>
+            <p>一、HDFS的HA架构<br>官方站点：<a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html">http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html</a></p>
+<p>1、HA具备的作用<br>HA指的是：HA(High Available)，高可用性集群，保证业务连续性，实现业务不中断<br>一般有两个或两个以上的节点，且分为活动节点及备用节点。</p>
+<p>2、HA是怎么处理运作的<br>HA是使用QJM（Quorum Journal Manager）处理的 ，所谓的HA是nn做HA</p>
+<blockquote>
+<p>如果做集群至少是需要三台机器<br>ZK(ZooKeeper)  可以将节点专门选为活动节点。如果当前活动的NameNode崩溃，则另一个节点可能在ZooKeeper中采用特殊的独占锁，指示它应该成为下一个活动的。<br>ZKFC(ZKFailoverController) 监视和管理NameNode的状态<br>JN(JournalNode)日志集群</p>
+</blockquote>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/HDFS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/HDFS%20HA%E6%9E%B6%E6%9E%84/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -195,7 +200,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1318 个字)
+                    5 分钟 读完 (大约 767 个字)
                 </span>
                 
                 
@@ -204,23 +209,18 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/03/03/HDFS%20HA%E6%9E%B6%E6%9E%84/">HDFS HA架构</a>
+                <a class="has-link-black-ter" href="/2020/03/03/HDFS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">HDFS常用命令</a>
             
         </h1>
         <div class="content">
-            <p>一、HDFS的HA架构<br>官方站点：<a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html">http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html</a></p>
-<p>1、HA具备的作用<br>HA指的是：HA(High Available)，高可用性集群，保证业务连续性，实现业务不中断<br>一般有两个或两个以上的节点，且分为活动节点及备用节点。</p>
-<p>2、HA是怎么处理运作的<br>HA是使用QJM（Quorum Journal Manager）处理的 ，所谓的HA是nn做HA</p>
-<blockquote>
-<p>如果做集群至少是需要三台机器<br>ZK(ZooKeeper)  可以将节点专门选为活动节点。如果当前活动的NameNode崩溃，则另一个节点可能在ZooKeeper中采用特殊的独占锁，指示它应该成为下一个活动的。<br>ZKFC(ZKFailoverController) 监视和管理NameNode的状态<br>JN(JournalNode)日志集群</p>
-</blockquote>
+            <p>一、hdfs常用命令<br>fs,   fs=hdfs=dfs<br>version,查看版本<br>jar<jar>  ,运行一个jar到 yarn上<br>checknative,查看hadoop对于压缩的支持，cloudera提供的cdh默认不支持压缩，得进行源代码编译<br>classpath，hadoop运行的过程中需要加载哪些jar包，<br>假如某一服务的进程无法启动，当 hadoop classpath的时候显示该进程未追加进来，或者额外的自定义的jar、lib包未添加，hadoop classpath会加载一些jar包的路径，第三方的jar包需要额外添加的，将该jar包放在对应的路径。</p>
         </div>
         
         
         <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/HDFS%20HA%E6%9E%B6%E6%9E%84/#more">阅读更多</a>
+                <a class="button is-size-7 is-light" href="/2020/03/03/HDFS%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more">阅读更多</a>
                 </div>
             </div>
         </div>
