@@ -132,6 +132,61 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-03T06:02:12.800Z">2020-03-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 分钟 读完 (大约 2181 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/03/YARN%E7%9A%84Memory%E5%92%8CCPU%E8%B0%83%E4%BC%98%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/">YARN的Memory和CPU调优配置详解</a>
+            
+        </h1>
+        <div class="content">
+            <p> Hadoop YARN同时支持内存和CPU两种资源的调度，本文介绍如何配置YARN对内存和CPU的使用。</p>
+<p>YARN作为一个资源调度器，应该考虑到集群里面每一台机子的计算资源，然后根据application申请的资源进行分配Container。Container是YARN里面资源分配的基本单位，具有一定的内存以及CPU资源。</p>
+<p>在YARN集群中，平衡内存、CPU、磁盘的资源的很重要的，根据经验，每两个container使用一块磁盘以及一个CPU核的时候可以使集群的资源得到一个比较好的利用。<br>内存配置</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/03/YARN%E7%9A%84Memory%E5%92%8CCPU%E8%B0%83%E4%BC%98%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-03-03T06:00:48.382Z">2020-03-03</time>
                 
                 <div class="level-item">
@@ -343,66 +398,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T05:59:01.061Z">2020-03-03</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Hadoop/">Hadoop</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1010 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/03/HDFS%E6%9E%B6%E6%9E%84%E5%8F%8A%E5%89%AF%E6%9C%AC%E6%94%BE%E7%BD%AE%E7%AD%96%E7%95%A5/">HDFS架构及副本放置策略</a>
-            
-        </h1>
-        <div class="content">
-            <p>架构设计<br><img src="https://img-blog.csdnimg.cn/20190707224319568.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>一、block块<br>HDFS中的文件在物理上是分块存储（block），块的大小可以通过配置参数( dfs.blocksize)来规定，默认大小在hadoop2.x版本中是128M，老版本中是64M<br> HDFS的Block大的原因是最小化寻道时间。把一个数据块设计的足够大，就能够使得数据传输的时间显著地大于寻找到Block所在时间。这样，传输一个由多个Block组成的文件的时间就取决于磁盘的传输速率<br>实际数据存在datanode的block里，block的映射（即Block Map）在namenode里<br>HDFS中的文件将会按块大小进行分解，并作为独立的单元进行存储</p>
-<blockquote>
-<p>HDFS中一个块只存储一个文件的内容<br>例如：一碗水130ml  一个瓶子规格容量128ml<br>只能2个瓶子：第1个装满128ml  第二个装不满，实为2ml</p>
-</blockquote>
-<p>（1）NameNode(NN)<br>NN:名称节点<br>存储: 文件系统的命名空间<br>a.文件名称<br>b.文件目录结构<br>c.文件属性(权限 创建时间 副本数)<br>d.文件对应的哪些块(副本块)–》块对应在哪些DN节点上<br>不会持久化存储这个映射关系，是通过集群的启动和运行时，DataNode定期发送blockReport给NameNode，以此NameNode在【内存】中动态维护这种映射关系<br>作用：管理文件系统的命名空间</p>
-<p>（2）DateNode(DN)<br>用来存储数据块和校验数和以及读写数据<br>与NN通信的参数是dfs.heartbeat.interval  3秒 和 dfs.blockreport.intervalMsec   21600000ms=6小时</p>
-<p>（3）Secondary NameNode(SNN)<br>作用: 定期合并NN节点的fsimage+editlog为新的fsimage,推送给NN，简称检查点</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">edits_0000000000000000404-0000000000000000404</span><br><span class="line">edits_0000000000000000405-0000000000000000406 拷贝editlog</span><br><span class="line">edits_inprogress_0000000000000000407 正在写的日志</span><br><span class="line">fsimage_0000000000000000404       拷贝fsimage </span><br><span class="line">fsimage_0000000000000000404.md5</span><br><span class="line">fsimage_0000000000000000406</span><br><span class="line">fsimage_0000000000000000406.md5</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">edits_0000000000000000208-0000000000000000403</span><br><span class="line">edits_0000000000000000405-0000000000000000406</span><br><span class="line">fsimage_0000000000000000404 包含了过往的所有的editlog001-404</span><br><span class="line">fsimage_0000000000000000404.md5</span><br><span class="line">fsimage_0000000000000000406</span><br><span class="line">fsimage_0000000000000000406.md5</span><br></pre></td></tr></table></figure>
-
-<p>1.滚动新的editlog文件  edits_inprogress_0000000000000000407<br>2.将edits_0000000000000000405-0000000000000000406<br>fsimage_0000000000000000404 拷贝到snn节点<br>3.合并为新的image fsimage_0000000000000000406<br>4.将检查点的fsimage_0000000000000000406文件推送给nn<br>5.滚动edits_inprogress_0000000000000000407 写满，就滚动到下一个editlog 比如edits_inprogress_0000000000000000408</p>
-<p><img src="https://img-blog.csdnimg.cn/20190708232948299.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>二、副本数<img src="https://img-blog.csdnimg.cn/20190708221307620.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>HDFS中副本的容错机制,把块打散分布在不同的节点，<br>生产上副本数dfs.replication一般也是官方默认参数: 3份<br>例如：块大小128m 副本数3份，一个文件260m，请问多少块，多少实际存储？<br>260%128=2…4m 3个块*3个副本=9个块     实际存储260m * 3 =780m </p>
-<p>三、副本放置策略<br><img src="https://img-blog.csdnimg.cn/20190708235801197.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">第一个副本: 提交节点为DN，自己写一份；否则为集群外提交，则随机挑选一个不太慢、cpu不太忙的节点上<br>第二个副本：放置在于第一个副本的不同机架的节点上<br>第三个副本:  与第二个副本相同机架的不同节点上<br>生产上考量副本数是否需要减少，从两方面一是：存储空间不够，二是：数据量太快太多<br>一般生产上副本数量是3分，历史数据要进行迁移，可迁移至阿里云的oss存储或者AWS的S3存储<br>代码上的命令执行：<br>hdfs dfs -ls hdfs://hadoop001:9000/<br>hdfs dfs -ls oss://hadoop001:9000/<br>hdfs dfs -ls s3://hadoop001:9000/</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -472,7 +467,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            43
+                            44
                         </p>
                     </a>
                 </div>
@@ -496,7 +491,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            11
+                            12
                         </p>
                     </a>
                 </div>
@@ -681,7 +676,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+        <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
     </div>
 </div>
     
@@ -693,6 +688,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -770,25 +784,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -806,7 +801,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -845,6 +840,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">
@@ -947,6 +949,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
@@ -1021,25 +1042,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1057,7 +1059,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -1096,6 +1098,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">

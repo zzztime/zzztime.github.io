@@ -132,6 +132,60 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 703 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/">CDN内容分发网络</a>
+            
+        </h1>
+        <div class="content">
+            <p>1、<strong>关于CDN</strong><br>CDN是内容分发网络，加快网络内容传输，根据节点的负载均衡状况、用户距离，匹配最适合的服务节点，提高响应速度，满足企业平台在高峰时超高峰值的响应速度，和稳定性。</p>
+<p>CDN 是一个经策略性部署的整体系统，包括分布式存储、负载均衡、网络请求的重定向和内容管理４个要件，而内容管理和全局的网络流量管理是CDN的核心。通过用户就近性和服务器负载的判断，会将源站的资源缓存到各个的边缘服务器（CDN解码器）上，用户请求访问和获取资源时，就近调用CDN解码器上缓存的资源。</p>
+<p>例如：上传静态资源<br>静态图片资源上传CDN,上传后静态资源加载的速度要比自己维护服务器要快一些，因为如果是自己维护服务器可能是只有几台，传输速度和请求的响应速度相对会慢一些。但CDN是有很多不同的节点，在不同的地方去访问对应的网站，会加载不同节点的最快的静态资源的地方，这样就会让网站的整个速度有个大的提升。</p>
+<p>2、<strong>CDN目前主要运用行业</strong><br>证券、金融保险、ISP、ICP、网上交易、门户网站、大中型公司、网络教学、直播、视频等领域。另外在行业专网、互联网中都可以用到。</p>
+<p>3、<strong>CDN接收请求的处理流程</strong><br>1）用户发起HTTP请求，首先会向DNS发起域名解析请求。<br>2）域名解析时，得到CNAME（服务商域名。<br>3）CNAME的解析请求会发送到DNS解析，得到最佳实例IP。<br>4）浏览器向获取解析的实例IP发起资源访问请求。<br>5）若该IP上游缓存了资源，则将数量返回给终端，若无缓存，则一方面在本地进行保存，以备以后使用，二方面把获取的数据返回给客户端，完成数据服务过程；</p>
+<p>4、<strong>图解</strong><br><img src="https://img-blog.csdnimg.cn/20200315173240273.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODcyOTM0Mw==,size_16,color_FFFFFF,t_70" alt=""></p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-03-03T08:45:50.389Z">2020-03-03</time>
                 
                 <div class="level-item">
@@ -264,7 +318,63 @@
             
         </h1>
         <div class="content">
-            <p>一、Transformations与Actions主要算子<br>（1）Transformations<br>|算子  |描述  |<br>|–|–|<br>| map | 处理每一条数据 |<br>| mapPartitions | 对每个分区进行处理 |<br>| mapPartitionsWithIndex | 每个元素跟所在分区形成一个元组 |<br>|  mapValues| 是针对RDD[K,V]的V做处理 |<br>| flatmap | flatmap = map + flatten |<br>| glom |每一个分区的数据放在一个数组 |<br>| sample |  |<br>| filter | 留下满足条件的 |<br>|groupKeyKey  | RDD[K,V]按传入函数的返回值进行分组，key值相同为一组 |<br>|distinct  |去重  |<br>| groupBy | 自定义分组  分组条件就是自定义传进去的 |<br>| sortBy |  排序，按正序排|</p>
+            <p>一、Transformations与Actions主要算子<br>（1）Transformations</p>
+<table>
+<thead>
+<tr>
+<th>算子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>map</td>
+<td>处理每一条数据</td>
+</tr>
+<tr>
+<td>mapPartitions</td>
+<td>对每个分区进行处理</td>
+</tr>
+<tr>
+<td>mapPartitionsWithIndex</td>
+<td>每个元素跟所在分区形成一个元组</td>
+</tr>
+<tr>
+<td>mapValues</td>
+<td>是针对RDD[K,V]的V做处理</td>
+</tr>
+<tr>
+<td>flatmap</td>
+<td>flatmap = map + flatten</td>
+</tr>
+<tr>
+<td>glom</td>
+<td>每一个分区的数据放在一个数组</td>
+</tr>
+<tr>
+<td>sample</td>
+<td></td>
+</tr>
+<tr>
+<td>filter</td>
+<td>留下满足条件的</td>
+</tr>
+<tr>
+<td>groupKeyKey</td>
+<td>RDD[K,V]按传入函数的返回值进行分组，key值相同为一组</td>
+</tr>
+<tr>
+<td>distinct</td>
+<td>去重</td>
+</tr>
+<tr>
+<td>groupBy</td>
+<td>自定义分组  分组条件就是自定义传进去的</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>排序，按正序排</td>
+</tr>
+</tbody></table>
         </div>
         
         
@@ -346,61 +456,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    12 分钟 读完 (大约 1752 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/">shell脚本同步集群配置以及zk未启动的排查方法</a>
-            
-        </h1>
-        <div class="content">
-            <p>一、shell脚本同步集群配置说明<br>维护集群不可能每台机器都通过win上传文件，通过写脚本，以第一台为标准进行配置，下发到所有机器，除非有些参数需要动态去修改<br>1、需要的shell脚本，给脚本一个x的权限</p>
-<p>链接：<a href="https://pan.baidu.com/s/1_GsD--aJtQjSsjKINzBfRA">https://pan.baidu.com/s/1_GsD--aJtQjSsjKINzBfRA</a><br>提取码：l2i7 </p>
-<p>2、使用scp适用于机器少的情况<br>使用scp的情况适用于机器少的时候，如果集群有1000或者更多的话，写scp要写1000行不现实，可以写一个for循环去处理，只要机器命名的命名规则是一样的，后面的001/002/003都是可以进行递增的<br>另外：维护一个txt,txt文档里面维护了ruozedata001/002/003机器名称的列表，写for循环的时候可以直接获取每一行每一个机器名字</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -464,7 +519,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            43
+                            44
                         </p>
                     </a>
                 </div>
@@ -488,7 +543,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            11
+                            12
                         </p>
                     </a>
                 </div>
@@ -673,7 +728,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+        <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
     </div>
 </div>
     
@@ -685,6 +740,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -762,25 +836,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -798,7 +853,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -837,6 +892,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">
@@ -939,6 +1001,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
@@ -1013,25 +1094,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1049,7 +1111,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -1088,6 +1150,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">

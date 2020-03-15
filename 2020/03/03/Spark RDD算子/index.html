@@ -10,16 +10,16 @@
 <title>Spark RDD算子 - zzztime</title>
 
 
-    <meta name="description" content="一、Transformations与Actions主要算子（1）Transformations|算子  |描述  ||–|–|| map | 处理每一条数据 || mapPartitions | 对每个分区进行处理 || mapPartitionsWithIndex | 每个元素跟所在分区形成一个元组 ||  mapValues| 是针对RDD[K,V]的V做处理 || flatmap | fla">
+    <meta name="description" content="一、Transformations与Actions主要算子（1）Transformations    算子 描述    map 处理每一条数据   mapPartitions 对每个分区进行处理   mapPartitionsWithIndex 每个元素跟所在分区形成一个元组   mapValues 是针对RDD[K,V]的V做处理   flatmap flatmap &#x3D; map + flatte">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark RDD算子">
 <meta property="og:url" content="http://yoursite.com/2020/03/03/Spark%20RDD%E7%AE%97%E5%AD%90/index.html">
 <meta property="og:site_name" content="zzztime">
-<meta property="og:description" content="一、Transformations与Actions主要算子（1）Transformations|算子  |描述  ||–|–|| map | 处理每一条数据 || mapPartitions | 对每个分区进行处理 || mapPartitionsWithIndex | 每个元素跟所在分区形成一个元组 ||  mapValues| 是针对RDD[K,V]的V做处理 || flatmap | fla">
+<meta property="og:description" content="一、Transformations与Actions主要算子（1）Transformations    算子 描述    map 处理每一条数据   mapPartitions 对每个分区进行处理   mapPartitionsWithIndex 每个元素跟所在分区形成一个元组   mapValues 是针对RDD[K,V]的V做处理   flatmap flatmap &#x3D; map + flatte">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/images/og_image.png">
 <meta property="article:published_time" content="2020-03-03T06:16:55.175Z">
-<meta property="article:modified_time" content="2020-03-03T16:25:24.071Z">
+<meta property="article:modified_time" content="2020-03-15T09:34:21.535Z">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/og_image.png">
@@ -159,9 +159,115 @@
             
         </h1>
         <div class="content">
-            <p>一、Transformations与Actions主要算子<br>（1）Transformations<br>|算子  |描述  |<br>|–|–|<br>| map | 处理每一条数据 |<br>| mapPartitions | 对每个分区进行处理 |<br>| mapPartitionsWithIndex | 每个元素跟所在分区形成一个元组 |<br>|  mapValues| 是针对RDD[K,V]的V做处理 |<br>| flatmap | flatmap = map + flatten |<br>| glom |每一个分区的数据放在一个数组 |<br>| sample |  |<br>| filter | 留下满足条件的 |<br>|groupKeyKey  | RDD[K,V]按传入函数的返回值进行分组，key值相同为一组 |<br>|distinct  |去重  |<br>| groupBy | 自定义分组  分组条件就是自定义传进去的 |<br>| sortBy |  排序，按正序排|</p>
+            <p>一、Transformations与Actions主要算子<br>（1）Transformations</p>
+<table>
+<thead>
+<tr>
+<th>算子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>map</td>
+<td>处理每一条数据</td>
+</tr>
+<tr>
+<td>mapPartitions</td>
+<td>对每个分区进行处理</td>
+</tr>
+<tr>
+<td>mapPartitionsWithIndex</td>
+<td>每个元素跟所在分区形成一个元组</td>
+</tr>
+<tr>
+<td>mapValues</td>
+<td>是针对RDD[K,V]的V做处理</td>
+</tr>
+<tr>
+<td>flatmap</td>
+<td>flatmap = map + flatten</td>
+</tr>
+<tr>
+<td>glom</td>
+<td>每一个分区的数据放在一个数组</td>
+</tr>
+<tr>
+<td>sample</td>
+<td></td>
+</tr>
+<tr>
+<td>filter</td>
+<td>留下满足条件的</td>
+</tr>
+<tr>
+<td>groupKeyKey</td>
+<td>RDD[K,V]按传入函数的返回值进行分组，key值相同为一组</td>
+</tr>
+<tr>
+<td>distinct</td>
+<td>去重</td>
+</tr>
+<tr>
+<td>groupBy</td>
+<td>自定义分组  分组条件就是自定义传进去的</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>排序，按正序排</td>
+</tr>
+</tbody></table>
 <a id="more"></a>
-<p>（2）Actions<br>|算子  |描述  |<br>|–|–|<br>| collect | 数组的形式返回数据集的所有元素 |<br>| foreach|打印每个元素 |<br>|count |统计RDD条数  |<br>| reduce | 聚合rdd中的元素，rdd.reduce(+)就是每个元素相加 |<br>| first | 取元素里面的第一个元素，底层调用的是take方法 |<br>| take(n) | 前n个元素组成的数组 |<br>| top(n) | 返回最大的前n个元素，底层调用的是takeOrdered |<br>| takeOrdered|排序后的前n个元素组成的数组  |<br>|countByKey |每种key的个数|<br>|countByKey |每种key的个数|</p>
+
+
+<p>（2）Actions</p>
+<table>
+<thead>
+<tr>
+<th>算子</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>collect</td>
+<td>数组的形式返回数据集的所有元素</td>
+</tr>
+<tr>
+<td>foreach</td>
+<td>打印每个元素</td>
+</tr>
+<tr>
+<td>count</td>
+<td>统计RDD条数</td>
+</tr>
+<tr>
+<td>reduce</td>
+<td>聚合rdd中的元素，rdd.reduce(+)就是每个元素相加</td>
+</tr>
+<tr>
+<td>first</td>
+<td>取元素里面的第一个元素，底层调用的是take方法</td>
+</tr>
+<tr>
+<td>take(n)</td>
+<td>前n个元素组成的数组</td>
+</tr>
+<tr>
+<td>top(n)</td>
+<td>返回最大的前n个元素，底层调用的是takeOrdered</td>
+</tr>
+<tr>
+<td>takeOrdered</td>
+<td>排序后的前n个元素组成的数组</td>
+</tr>
+<tr>
+<td>countByKey</td>
+<td>每种key的个数</td>
+</tr>
+<tr>
+<td>countByKey</td>
+<td>每种key的个数</td>
+</tr>
+</tbody></table>
 
         </div>
         
@@ -254,7 +360,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            43
+                            44
                         </p>
                     </a>
                 </div>
@@ -278,7 +384,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            11
+                            12
                         </p>
                     </a>
                 </div>
@@ -463,7 +569,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
+        <a href="/tags/CDN/" style="font-size: 10px;">CDN</a> <a href="/tags/Hadoop/" style="font-size: 20px;">Hadoop</a> <a href="/tags/Hive/" style="font-size: 14px;">Hive</a> <a href="/tags/Linux/" style="font-size: 18px;">Linux</a> <a href="/tags/MapReduce/" style="font-size: 10px;">MapReduce</a> <a href="/tags/MySQL/" style="font-size: 16px;">MySQL</a> <a href="/tags/Shell/" style="font-size: 12px;">Shell</a> <a href="/tags/Spark/" style="font-size: 14px;">Spark</a> <a href="/tags/centOS/" style="font-size: 10px;">centOS</a> <a href="/tags/tomcat/" style="font-size: 10px;">tomcat</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/" style="font-size: 10px;">虚拟机</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 16px;">部署</a>
     </div>
 </div>
     
@@ -475,6 +581,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -552,25 +677,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
         
@@ -588,7 +694,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -627,6 +733,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">
@@ -729,6 +842,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CDN内容分发网络">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-15T08:21:18.033Z">2020-03-15</time></div>
+                    <a href="/2020/03/15/CDN%E5%86%85%E5%AE%B9%E5%88%86%E5%8F%91%E7%BD%91%E7%BB%9C/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CDN内容分发网络</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/03/Hadoop%E4%B9%8BUnable%20to%20load%20native-hadoop%20library%20for%20your%20platform%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Hadoop之Unable to load native-hadoop library for your platform...解决办法">
@@ -803,25 +935,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="shell脚本同步集群配置以及zk未启动的排查方法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-03T06:16:01.315Z">2020-03-03</time></div>
-                    <a href="/2020/03/03/shell%E8%84%9A%E6%9C%AC%E5%90%8C%E6%AD%A5%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE%E4%BB%A5%E5%8F%8Azk%E6%9C%AA%E5%90%AF%E5%8A%A8%E7%9A%84%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95/" class="title has-link-black-ter is-size-6 has-text-weight-normal">shell脚本同步集群配置以及zk未启动的排查方法</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Shell/">Shell</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -839,7 +952,7 @@
                     <span class="level-item">三月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">41</span>
+                    <span class="level-item tag">42</span>
                 </span>
             </a>
         </li>
@@ -878,6 +991,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CDN/">
+                        <span class="tag">CDN</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Hadoop/">
